@@ -1,0 +1,65 @@
+#page-container {
+  position: absolute;
+  top: 0;
+  overflow-y: scroll;
+  font-size: 18px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.account-container {
+  background-color: var(--grey-color);
+  width: 1000px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+  border: var(--black-color) solid 1px;
+  border-radius: 5px;
+}
+
+button {
+  height: 30px;
+  width: 60px;
+  border: var(--black-color) solid 1px;
+  border-radius: 5px;
+  color: var(--black-color);
+}
+
+.reset-button {
+  background-color: var(--yellow-color);
+}
+
+.remove-button {
+  background-color: var(--red-color);
+}
+
+.name, .email, .rank, .buttons {
+  width: 25%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rank {
+  width: 15%;
+}
+
+.buttons {
+  width: 15%;
+  justify-content: space-between;
+}
+
+#top-bar {
+  position: absolute;
+  top: 0;
+}

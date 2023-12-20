@@ -1,0 +1,30 @@
+﻿name: api test postman
+on:
+  push:
+    branch:
+      - main
+  pull_request: 
+    branch:
+      - '*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8'
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '18'
+      - run: npm install -g newman
+      - name: Setup API and run tests
+        run: |
+          cd shell_scripts
+          chmod +x ./wait-for-it.sh
+          dotnet run --project=../api/ &
+          API_PID=$!
+          ./wait-for-it.sh -t 60 localhost:5001 -- && sh ./run-all-api-tests.sh
+          kill $API_PID
+        env:
+          pgconn: ${{secrets.PGCONN}}

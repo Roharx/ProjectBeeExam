@@ -1,0 +1,1884 @@
+{
+	"info": {
+		"_postman_id": "2197993d-a66f-41b4-9f6a-b99edb81de23",
+		"name": "Bees",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29117284"
+	},
+	"item": [
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "Success",
+					"item": [
+						{
+							"name": "getAllAccounts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}getAccounts",
+									"host": [
+										"{{baseURL}}getAccounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createAccount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"user@example.com\",\r\n  \"name\": \"test user\",\r\n  \"password\": \"abc123456789\",\r\n  \"rank\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}createAccount",
+									"host": [
+										"{{baseURL}}createAccount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateAccount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 1,\r\n  \"email\": \"user@example.com\",\r\n  \"name\": \"testing user\",\r\n  \"password\": \"string12345\",\r\n  \"rank\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}updateAccount",
+									"host": [
+										"{{baseURL}}updateAccount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteAccount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}DeleteAccount/0",
+									"host": [
+										"{{baseURL}}DeleteAccount"
+									],
+									"path": [
+										"0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "checkPasswordCorrect",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");\r",
+											"\r",
+											"const jsonData = pm.response.json(); \r",
+											"pm.test(\"Verify Json values\", function () { \r",
+											"    pm.expect(pm.response.json().responseData).to.eql(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"test user\",\r\n  \"password\": \"abc123456789\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}checkPassword",
+									"host": [
+										"{{baseURL}}checkPassword"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "checkPasswordIncorrect",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");\r",
+											"\r",
+											"const jsonData = pm.response.json(); \r",
+											"pm.test(\"Verify Json values\", function () { \r",
+											"    pm.expect(pm.response.json().responseData).to.eql(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"test user\",\r\n  \"password\": \"incorrectpassword\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}checkPassword",
+									"host": [
+										"{{baseURL}}checkPassword"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Failure",
+					"item": [
+						{
+							"name": "createAccountShortPassword",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 (Failure)\", function(){\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"user@example.com\",\r\n  \"name\": \"test user\",\r\n  \"password\": \"1\",\r\n  \"rank\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}createAccount",
+									"host": [
+										"{{baseURL}}createAccount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createAccountTooBigRank",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 (Failure)\", function(){\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"user@example.com\",\r\n  \"name\": \"test user\",\r\n  \"password\": \"1\",\r\n  \"rank\": 99999999\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}createAccount",
+									"host": [
+										"{{baseURL}}createAccount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Ailment",
+			"item": [
+				{
+					"name": "Success",
+					"item": [
+						{
+							"name": "getAllAilments",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}getAilments",
+									"host": [
+										"{{baseURL}}getAilments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getGlobalAilments",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"pm.test(\"Every severity should be greater than 4(Field Wide)\", function () {\r",
+											"    jsonData.responseData.forEach(function (ailment) {\r",
+											"        pm.expect(ailment.severity).to.be.greaterThan(4);\r",
+											"    });\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}getGlobalAilments",
+									"host": [
+										"{{baseURL}}getGlobalAilments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createAilment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"hive_Id\": 5,\r\n  \"name\": \"string\",\r\n  \"severity\": 1,\r\n  \"comment\": \"string\",\r\n  \"solved\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}createAilment",
+									"host": [
+										"{{baseURL}}createAilment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateAilment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 0,\r\n  \"hiveId\": 0,\r\n  \"name\": \"test\",\r\n  \"severity\": 5,\r\n  \"comment\": \"test\",\r\n  \"solved\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}updateAilment",
+									"host": [
+										"{{baseURL}}updateAilment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteAilment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}deleteAilment/0",
+									"host": [
+										"{{baseURL}}deleteAilment"
+									],
+									"path": [
+										"0"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Failure",
+					"item": [
+						{
+							"name": "createAilmentTooBigSeverity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 (Failure)\", function(){\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"hive_Id\": 5,\r\n  \"name\": \"string\",\r\n  \"severity\": 999999,\r\n  \"comment\": \"string\",\r\n  \"solved\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}createAilment",
+									"host": [
+										"{{baseURL}}createAilment"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Bee",
+			"item": [
+				{
+					"name": "Success",
+					"item": [
+						{
+							"name": "getAllBees",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}getBees",
+									"host": [
+										"{{baseURL}}getBees"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createBee",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"testing bee\",\r\n  \"description\": \"postman\",\r\n  \"comment\": \"yes\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}createBee",
+									"host": [
+										"{{baseURL}}createBee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateBee",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 0,\r\n  \"name\": \"string\",\r\n  \"description\": \"string\",\r\n  \"comment\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}updateBee",
+									"host": [
+										"{{baseURL}}updateBee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "removeBee",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}DeleteBee/0",
+									"host": [
+										"{{baseURL}}DeleteBee"
+									],
+									"path": [
+										"0"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Failure",
+					"item": []
+				}
+			]
+		},
+		{
+			"name": "Field",
+			"item": [
+				{
+					"name": "Success",
+					"item": [
+						{
+							"name": "getAllFields",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}getFields",
+									"host": [
+										"{{baseURL}}getFields"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getFieldsForAccount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}getFieldsForAccount/0",
+									"host": [
+										"{{baseURL}}getFieldsForAccount"
+									],
+									"path": [
+										"0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createField",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fieldName\": \"postman test field\",\r\n  \"fieldLocation\": \"here\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}createField",
+									"host": [
+										"{{baseURL}}createField"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateField",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fieldId\": 0,\r\n  \"fieldName\": \"test\",\r\n  \"fieldLocation\": \"test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}updateField",
+									"host": [
+										"{{baseURL}}updateField"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "removeField",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}DeleteField/0",
+									"host": [
+										"{{baseURL}}DeleteField"
+									],
+									"path": [
+										"0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "connectFieldAndAccount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"accountId\": 0,\r\n  \"fieldId\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}ConnectFieldAndAccount",
+									"host": [
+										"{{baseURL}}ConnectFieldAndAccount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "disconnectFieldAndAccount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"accountId\": 0,\r\n  \"fieldId\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}DisconnectFieldAndAccount",
+									"host": [
+										"{{baseURL}}DisconnectFieldAndAccount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Failure",
+					"item": []
+				}
+			]
+		},
+		{
+			"name": "Harvest",
+			"item": [
+				{
+					"name": "Success",
+					"item": [
+						{
+							"name": "getAllHarvest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}getHarvests",
+									"host": [
+										"{{baseURL}}getHarvests"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createHarvest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"hiveId\": 5,\r\n  \"time\": \"2023-12-12 12:12:12\",\r\n  \"honeyAmount\": 0,\r\n  \"beeswaxAmount\": 0,\r\n  \"comment\": \"postman test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}createHarvest",
+									"host": [
+										"{{baseURL}}createHarvest"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateHarvest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 0,\r\n  \"hiveId\": 0,\r\n  \"time\": \"9741-85-30 62:76:39\",\r\n  \"honeyAmount\": 0,\r\n  \"beeswaxAmount\": 0,\r\n  \"comment\": \"postman update test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}updateHarvest",
+									"host": [
+										"{{baseURL}}updateHarvest"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteHarvest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}DeleteHarvest/0",
+									"host": [
+										"{{baseURL}}DeleteHarvest"
+									],
+									"path": [
+										"0"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Failure",
+					"item": [
+						{
+							"name": "createHarvestWrongDateFormat",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 (Failure)\", function(){\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"hiveId\": 5,\r\n  \"time\": \"12-12-1212 12:12:12\",\r\n  \"honeyAmount\": 0,\r\n  \"beeswaxAmount\": 0,\r\n  \"comment\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}createHarvest",
+									"host": [
+										"{{baseURL}}createHarvest"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Hive",
+			"item": [
+				{
+					"name": "Success",
+					"item": [
+						{
+							"name": "getAllHives",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}getHives",
+									"host": [
+										"{{baseURL}}getHives"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createHive",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fieldId\": 3,\r\n  \"name\": \"postman test hive\",\r\n  \"location\": \"string\",\r\n  \"placementDate\": \"6674-12-87\",\r\n  \"lastCheck\": \"7247-05-35 37:43:90\",\r\n  \"readyToHarvest\": true,\r\n  \"color\": \"string\",\r\n  \"beeId\": 1,\r\n  \"comment\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}createHive",
+									"host": [
+										"{{baseURL}}createHive"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateHive",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 0,\r\n  \"fieldId\": 0,\r\n  \"name\": \"string\",\r\n  \"location\": \"string\",\r\n  \"placementDate\": \"4338-31-55\",\r\n  \"lastCheck\": \"9773-46-54 82:34:35\",\r\n  \"readyToHarvest\": true,\r\n  \"color\": \"string\",\r\n  \"beeId\": 0,\r\n  \"comment\": \"postman update test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}updateHive",
+									"host": [
+										"{{baseURL}}updateHive"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteHive",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}DeleteHive/0",
+									"host": [
+										"{{baseURL}}DeleteHive"
+									],
+									"path": [
+										"0"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Failure",
+					"item": [
+						{
+							"name": "createHiveWrongCreateDate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 (Failure)\", function(){\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fieldId\": 3,\r\n  \"name\": \"postman test hive\",\r\n  \"location\": \"string\",\r\n  \"placementDate\": \"12-12-2023\",\r\n  \"lastCheck\": \"2023-12-12 37:43:90\",\r\n  \"readyToHarvest\": true,\r\n  \"color\": \"string\",\r\n  \"beeId\": 1,\r\n  \"comment\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}createHive",
+									"host": [
+										"{{baseURL}}createHive"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createHiveWrongLastCheckDate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 (Failure)\", function(){\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fieldId\": 3,\r\n  \"name\": \"postman test hive\",\r\n  \"location\": \"string\",\r\n  \"placementDate\": \"2023-12-12\",\r\n  \"lastCheck\": \"12-12-2023 37:43:90\",\r\n  \"readyToHarvest\": true,\r\n  \"color\": \"string\",\r\n  \"beeId\": 1,\r\n  \"comment\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}createHive",
+									"host": [
+										"{{baseURL}}createHive"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateHiveWrongLastCheckDateFormat",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 (Failure)\", function(){\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 0,\r\n  \"fieldId\": 0,\r\n  \"name\": \"string\",\r\n  \"location\": \"string\",\r\n  \"placementDate\": \"4338-31-55\",\r\n  \"lastCheck\": \"12-12-2023 82:34:35\",\r\n  \"readyToHarvest\": true,\r\n  \"color\": \"string\",\r\n  \"beeId\": 0,\r\n  \"comment\": \"postman update test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}updateHive",
+									"host": [
+										"{{baseURL}}updateHive"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateHiveWrongLastCheckTimeFormat",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 (Failure)\", function(){\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 0,\r\n  \"fieldId\": 0,\r\n  \"name\": \"string\",\r\n  \"location\": \"string\",\r\n  \"placementDate\": \"4338-31-55\",\r\n  \"lastCheck\": \"2023-12-12 82:34\",\r\n  \"readyToHarvest\": true,\r\n  \"color\": \"string\",\r\n  \"beeId\": 0,\r\n  \"comment\": \"postman update test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}updateHive",
+									"host": [
+										"{{baseURL}}updateHive"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Honey",
+			"item": [
+				{
+					"name": "Success",
+					"item": [
+						{
+							"name": "getAllHoney",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}getHoney",
+									"host": [
+										"{{baseURL}}getHoney"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createHoney",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"postman test honey\",\r\n  \"liquid\": true,\r\n  \"harvest\": 3,\r\n  \"moisture\": 0,\r\n  \"flowers\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}createHoney",
+									"host": [
+										"{{baseURL}}createHoney"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateHoney",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 0,\r\n  \"name\": \"string\",\r\n  \"liquid\": true,\r\n  \"harvest\": 0,\r\n  \"moisture\": 0,\r\n  \"flowers\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}updateHoney",
+									"host": [
+										"{{baseURL}}updateHoney"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteHoney",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}DeleteHoney/0",
+									"host": [
+										"{{baseURL}}DeleteHoney"
+									],
+									"path": [
+										"0"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Failure",
+					"item": []
+				}
+			]
+		},
+		{
+			"name": "Inventory",
+			"item": [
+				{
+					"name": "Success",
+					"item": [
+						{
+							"name": "getAllInventoryItems",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}getInventory",
+									"host": [
+										"{{baseURL}}getInventory"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createInventoryItem",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fieldId\": 1,\r\n  \"name\": \"postman test item\",\r\n  \"description\": \"string\",\r\n  \"amount\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}createInventory",
+									"host": [
+										"{{baseURL}}createInventory"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateInventoryItem",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 0,\r\n  \"fieldId\": 1,\r\n  \"name\": \"string\",\r\n  \"description\": \"string\",\r\n  \"amount\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}updateInventory",
+									"host": [
+										"{{baseURL}}updateInventory"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteInventoryItem",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}DeleteInventory/0",
+									"host": [
+										"{{baseURL}}DeleteInventory"
+									],
+									"path": [
+										"0"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Failure",
+					"item": []
+				}
+			]
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "Success",
+					"item": [
+						{
+							"name": "getAllTasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}getTask",
+									"host": [
+										"{{baseURL}}getTask"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createTask",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"hiveId\": 5,\r\n  \"name\": \"postman test task\",\r\n  \"description\": \"string\",\r\n  \"done\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}createTask",
+									"host": [
+										"{{baseURL}}createTask"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateTask",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 0,\r\n  \"hiveId\": 0,\r\n  \"name\": \"string\",\r\n  \"description\": \"string\",\r\n  \"done\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}updateTask",
+									"host": [
+										"{{baseURL}}updateTask"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteTask",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 (Success)\", function(){\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.environment.get(\"variable_key\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}DeleteTask/0",
+									"host": [
+										"{{baseURL}}DeleteTask"
+									],
+									"path": [
+										"0"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Failure",
+					"item": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:5001/api/",
+			"type": "string"
+		}
+	]
+}

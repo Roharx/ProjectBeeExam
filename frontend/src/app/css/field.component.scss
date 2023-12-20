@@ -1,0 +1,81 @@
+#page-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  top: 0;
+  overflow-y: scroll;
+}
+#interface-top{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+}
+#manager-list{
+  button{
+    color: var(--black-color);
+    border-color: transparent;
+    user-select: none;
+  }
+  button[disabled] {
+    pointer-events: none;
+    user-select: none;
+    background-color: transparent;
+    opacity: 0.5;
+  }
+  button:hover{
+    box-shadow: none;
+    transform: none;
+  }
+  button:active{
+    box-shadow: none;
+    transform: none;
+    color: var(--black-color);
+  }
+}
+
+.remove-button{
+  background-color: var(--red-color);
+}
+.add-manager-button{
+  background-color: var(--green-color);
+}
+#interface-bottom{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 50px;
+}
+#cancel-button{
+  background-color: var(--red-color);
+}
+#add-button {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  font-size: 36px;
+  font-weight: normal;
+  border-radius: 8px;
+  background-color: var(--yellow-color);
+  border: none;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  color: var(--black-color);
+  transition: 0.2s;
+}
+#interface{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+#interface-bottom{
+  justify-content: space-between;
+}
+#remove-button{
+  background-color: var(--grey-color);
+  color: var(--red-color);
+
+}

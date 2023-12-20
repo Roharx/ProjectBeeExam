@@ -1,0 +1,309 @@
+#page-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 0;
+}
+
+#top-bar {
+  height: 15%;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+#user-background {
+  height: 70px;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-width: 2px;
+  border-color: var(--effect-color);
+  border-radius: 100px;
+  border-style: solid;
+  background-color: var(--dark-color);
+  margin-top: 20px;
+  margin-left: 20px;
+  user-select: none;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+#user-background:hover {
+  border-color: var(--green-color);
+}
+
+#warning-triangle {
+  width: 0;
+  height: 0;
+  margin-top: 20px;
+  margin-right: 20px;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 50px solid var(--red-color);
+  border-radius: 3px;
+  display: flex;
+  align-content: flex-end;
+  justify-content: center;
+  color: var(--dark-color);
+  font-size: 36px;
+  cursor: default;
+  user-select: none;
+  line-height: 62px;
+}
+
+#field-container {
+  height: 85%;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  overflow-y: scroll;
+}
+
+#user-container {
+  display: flex;
+  cursor: default;
+  user-select: none;
+}
+
+#user-controls {
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 18px;
+  width: 300px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  #username {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+  }
+
+  #username:hover {
+    color: var(--green-color);
+  }
+}
+
+#log-out {
+  font-size: 18px;
+  line-height: 10px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+#log-out:hover,
+#log-out:hover #out {
+  color: var(--red-color);
+}
+
+#log-out:active,
+#log-out:active #out {
+  color: var(--grey-color);
+}
+
+#out {
+  color: var(--effect-color);
+}
+
+//-------------------------field-boxes---------------------------
+.field {
+  margin: 20px;
+  padding: 10px;
+  min-height: 150px;
+  min-width: 300px;
+  font-weight: bold;
+  font-size: 18px;
+  color: var(--dark-color);
+  background-color: var(--dark-yellow);
+  border: var(--grey-color) solid 1px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  height: min-content;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.circle-background {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle at 0 0, #ffffff 5%, transparent 5%);
+}
+
+.field-top {
+  display: flex;
+  justify-content: space-between;
+
+  .p {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.field-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 100px;
+}
+
+.field-edit-button {
+  height: 20px;
+  width: 40px;
+  color: var(--dark-color);
+  font-weight: bold;
+  font-size: 16px;
+  background-color: var(--white-color);
+  border: var(--dark-color) solid 1px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  line-height: 10px;
+  transition: 0.2s ease-in-out;
+}
+
+.field-edit-button:hover {
+  background-color: var(--dark-color);
+  color: var(--white-color);
+}
+
+.field-edit-button:active {
+  background-color: var(--white-color);
+  color: var(--dark-color);
+}
+
+//-------------------------field-boxes-end--------------------------
+
+//-------------------------hive-boxes----------------------------
+.hive {
+  background-color: var(--dark-color);
+  height: 150px;
+  width: 300px;
+  margin: 20px;
+  border: solid var(--dark-color);
+  border-width: 1px;
+  border-radius: 7px;
+  color: var(--white-color);
+  position: relative;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+.hive:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: var(--effect-color);
+  clip-path: circle(120px at 0% 100%);
+  transition: 0.5s ease-in-out;
+  overflow: hidden;
+}
+
+.hive:hover:before {
+  clip-path: circle(120px at 90% 40%);
+}
+
+.hive:after {
+  position: absolute;
+  top: 30%;
+  left: -20%;
+  font-weight: bold;
+  color: var(--dark-color);
+}
+
+//-------------------------box-contents--------------------------
+.hive-top, .hive-middle, .hive-bottom {
+  width: 50%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: 0.5s ease-in-out;
+  display: flex;
+}
+
+.hive-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  font-size: 18px;
+  position: relative;
+  margin-bottom: 0;
+  transition: 0.5s ease-in-out;
+}
+
+.hive-middle {
+  visibility: hidden;
+  opacity: 0;
+  min-height: 100px;
+}
+
+.hive-bottom {
+  transform: translateX(100%);
+  visibility: hidden;
+  opacity: 0;
+  justify-content: flex-end;
+}
+
+.hive:hover {
+  .hive-top, .hive-middle {
+    transform: translateX(-90%);
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .hive-bottom {
+    transform: translateX(0) translateY(-30px);
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.manage-hive-button {
+  width: 80px;
+  height: 30px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--black-color);
+  border-radius: 5px;
+  color: var(--black-color);
+  background-color: var(--red-color);
+  font-weight: bold;
+  font-size: 16px;
+  transition: .2s;
+}
+
+.manage-hive-button:hover {
+  box-shadow: 5px 5px 5px black;
+  transform: translateY(-2px) translateX(-2px);
+}
+
+.manage-hive-button:active {
+  box-shadow: none;
+  transform: translateY(2px) translateX(2px);
+}
+
+//-------------------------box-contents-end-------------------------
+//-------------------------hive-boxes-end---------------------------

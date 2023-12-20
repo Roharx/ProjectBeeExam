@@ -1,0 +1,204 @@
+{
+	"info": {
+		"_postman_id": "bc39f7ae-2212-496e-b854-400328808cbc",
+		"name": "Box Factory",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29117284"
+	},
+	"item": [
+		{
+			"name": "Get All Boxes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 (Found)\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.environment.get(\"variable_key\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}boxes",
+					"host": [
+						"{{baseURL}}boxes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Box",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 (Created)\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.environment.get(\"variable_key\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"volume\": 5,\r\n  \"name\": \"Test Box 1\",\r\n  \"color\": \"Test Brown\",\r\n  \"description\": \"Test Data\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}box",
+					"host": [
+						"{{baseURL}}box"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Box 1 letter name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 (Created)\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.environment.get(\"variable_key\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"volume\": 0,\r\n  \"name\": \"a\",\r\n  \"color\": \"test\",\r\n  \"description\": \"test\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}box",
+					"host": [
+						"{{baseURL}}box"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Box 2 letter name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 (Created)\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.environment.get(\"variable_key\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"volume\": 0,\r\n  \"name\": \"ab\",\r\n  \"color\": \"test\",\r\n  \"description\": \"test\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/box",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"box"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:5001/api/",
+			"type": "string"
+		}
+	]
+}
