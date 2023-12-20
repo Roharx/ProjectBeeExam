@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseURL: 'http://localhost:5001'
+  baseURL: 'https://beeproject.azurewebsites.net'
 };
 
 /*

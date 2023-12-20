@@ -89,7 +89,7 @@ export class FieldComponent implements OnInit {
 
   private async showRankError() {
     const toast = await this.toastController.create({
-      message: "Only field managers can modify fields.",
+      message: "Only field managers can modify fieldsnpm uninstall -g firebase-tools\n.",
       duration: 5000,
       color: "danger"
     })
