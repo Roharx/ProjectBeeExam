@@ -15,8 +15,6 @@ public class AccountRepository : RepositoryBase
 
     public IEnumerable<AccountSafeQuery> GetAllAccounts()
     {
-        //TODO: remove GetAllItems
-        //return GetAllItems<AccountQuery>("account"); dev only
         const string sql = "SELECT id, email, name, rank FROM account";
 
         using var conn = _dataSource.OpenConnection();
@@ -61,7 +59,7 @@ public class AccountRepository : RepositoryBase
             rank = accountRank
         };
 
-        return CreateItem<int>("account", parameters); //TODO: check if it works, fix if not
+        return CreateItem<int>("account", parameters); 
     }
 
     public bool UpdateAccount(AccountQuery account)

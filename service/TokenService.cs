@@ -12,7 +12,7 @@ public interface ITokenService
 
 public class TokenService: ITokenService
 {
-    private const string SecretKey = "ThisIsATestSecretKeyForJWTWithMoreThan256Bits"; // Replace with secret stuff later
+    private const string SecretKey = "ThisIsATestSecretKeyForJWTWithMoreThan256Bits"; // Change to environmental variable
     private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(SecretKey)); // change later to more secure version
 
     public string GenerateToken(AccountQuery account)

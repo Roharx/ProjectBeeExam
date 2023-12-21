@@ -89,9 +89,8 @@ export class LoginComponent {
   }
 
   async onSuccessfulLogin(token: string) {
-    const username = this.loginForm.getRawValue().username!.toString(); // Assuming your API response directly contains the token
+    const username = this.loginForm.getRawValue().username!.toString();
 
-    // Save the token to the local storage using your TokenService
     this.tokenService.saveToken(token);
     const decodedToken = this.jwtService.decodeToken(token);
     const rank = decodedToken ? decodedToken['rank'] : null;
