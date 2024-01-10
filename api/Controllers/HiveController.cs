@@ -4,6 +4,7 @@ using BeeProject.TransferModels;
 using BeeProject.TransferModels.CreateRequests;
 using BeeProject.TransferModels.UpdateRequests;
 using infrastructure.QueryModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using service;
 
@@ -27,21 +28,25 @@ public class HiveController : ControllerBase
         !IsUrlAllowed(Request.Headers["Referer"]) ? HandleInvalidRequest() : new ResponseDto { MessageToClient = $"Successfully {successMessage}.", ResponseData = action.Invoke() };
 
     [HttpGet]
+    [Authorize]
     [Route("/api/getHives")]
     public ResponseDto GetAllHives() => new ResponseDto { MessageToClient = "Successfully fetched all hives.", ResponseData = _hiveService.GetAllHives() };
 
     [HttpGet]
+    [Authorize]
     [Route("/api/getHivesForField/{id:int}")]
     public ResponseDto GetAllHivesForField([FromRoute] int id) =>
         new ResponseDto { MessageToClient = "Successfully fetched all hives.", ResponseData = _hiveService.GetHivesForField(id) };
 
     [HttpPost]
+    [Authorize]
     [ValidateModel]
     [Route("/api/createHive")]
     public ResponseDto CreateHive([FromBody] CreateHiveRequestDto dto) =>
         new ResponseDto { MessageToClient = "Successfully created a hive.", ResponseData = _hiveService.CreateHive(dto.FieldId, dto.Name, dto.Location, dto.PlacementDate, dto.LastCheck, dto.ReadyToHarvest, dto.Color, dto.Comment!, dto.BeeId) };
 
     [HttpPut]
+    [Authorize]
     [ValidateModel]
     [Route("/api/updateHive")]
     public ResponseDto UpdateHive([FromBody] UpdateHiveRequestDto dto) =>
@@ -65,6 +70,7 @@ public class HiveController : ControllerBase
         }, "updated hive");
 
     [HttpDelete]
+    [Authorize]
     [Route("/api/DeleteHive/{id:int}")]
     public ResponseDto DeleteHive([FromRoute] int id) =>
         ValidateAndProceed<ResponseDto>(() => { _hiveService.DeleteHive(id); return null; }, "deleted hive");

@@ -4,6 +4,7 @@ using BeeProject.TransferModels;
 using BeeProject.TransferModels.CreateRequests;
 using BeeProject.TransferModels.UpdateRequests;
 using infrastructure.QueryModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using service;
 
@@ -26,17 +27,20 @@ public class HoneyController : ControllerBase
         !IsUrlAllowed(Request.Headers["Referer"]) ? HandleInvalidRequest() : new ResponseDto { MessageToClient = $"Successfully {successMessage}.", ResponseData = action.Invoke() };
 
     [HttpGet]
+    [Authorize]
     [Route("/api/getHoney")]
     public ResponseDto GetAllHoneys() =>
         new ResponseDto { MessageToClient = "Successfully fetched every honey.", ResponseData = _honeyService.GetAllHoney() };
 
     [HttpPost]
+    [Authorize]
     [ValidateModel]
     [Route("/api/createHoney")]
     public ResponseDto CreateHoney([FromBody] CreateHoneyRequestDto dto) =>
         new ResponseDto { MessageToClient = "Successfully created a honey.", ResponseData = _honeyService.CreateHoney(dto.Harvest, dto.Name, dto.Liquid, dto.Flowers, dto.Moisture) };
 
     [HttpPut]
+    [Authorize]
     [ValidateModel]
     [Route("/api/updateHoney")]
     public ResponseDto UpdateHoney([FromBody] UpdateHoneyRequestDto dto) =>
@@ -57,6 +61,7 @@ public class HoneyController : ControllerBase
 
     // TODO: change to safe later
     [HttpDelete]
+    [Authorize]
     [Route("/api/DeleteHoney/{id:int}")]
     public ResponseDto DeleteHoney([FromRoute] int id) =>
         ValidateAndProceed<ResponseDto>(() => { _honeyService.DeleteHoney(id); return null; }, "deleted honey");

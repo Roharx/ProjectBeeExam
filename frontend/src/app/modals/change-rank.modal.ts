@@ -1,5 +1,5 @@
-import {Component, numberAttribute, OnInit} from "@angular/core";
-import {FormBuilder, Validators} from "@angular/forms";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder} from "@angular/forms";
 import {firstValueFrom} from "rxjs";
 import {Account, AccountRank, ResponseDto} from "../../models";
 import {environment} from "../../environments/environment";
@@ -19,10 +19,10 @@ import {ModalController} from '@ionic/angular';
       <div id="middle">
         <ion-list>
           <ion-item>
-            <p>Name: {{ this.state.selectedAccount.name }}</p>
+            <p>Name: {{ state.selectedAccount.name }}</p>
           </ion-item>
           <ion-item>
-            <p>Email: {{ this.state.selectedAccount.email }}</p>
+            <p>Email: {{ state.selectedAccount.email }}</p>
           </ion-item>
           <ion-item>
             <ion-select placeholder="Select Rank" [(ngModel)]="selectedRank" name="selectedRank"
@@ -37,18 +37,23 @@ import {ModalController} from '@ionic/angular';
         <button id="cancel" (click)="closeModal()">Cancel</button>
       </div>
     </div>
-
   `,
-  styleUrls: ['../css/createField.component.scss'],
+  styleUrls: ['../scss/create-field.modal.scss'],
   selector: 'rank-modal-component'
 })
 
-export class RankModalComponent implements OnInit {
+export class ChangeRankModal implements OnInit {
   selectedRank: AccountRank = 0;
   accountRanks = Object.values(AccountRank).filter(value => typeof value === 'string');
-  constructor(public http: HttpClient, public state: State,
-              public toastController: ToastController, private router: Router, private tokenService: TokenService,
-              private modalController: ModalController) {
+
+  constructor(
+    public http: HttpClient,
+    public state: State,
+    public toastController: ToastController,
+    private router: Router,
+    private tokenService: TokenService,
+    private modalController: ModalController,
+  ) {
   }
 
   ngOnInit(): void {
@@ -61,46 +66,38 @@ export class RankModalComponent implements OnInit {
 
   async save() {
     try {
-      const rankNumber: number = this.selectedRank;
       const requestBody = {
         accountId: this.state.selectedAccount.id,
         rank: AccountRank[this.selectedRank]
       };
-      console.log(requestBody);
       const createResponse = await firstValueFrom(
-        this.http.put<ResponseDto<boolean>>(environment.baseURL + '/api/modifyRank', requestBody));
+        this.http.put<ResponseDto<boolean>>(`${environment.baseURL}/api/modifyRank`, requestBody)
+      );
 
       if (createResponse) {
+        this.state.selectedAccount.rank = AccountRank[this.selectedRank] as unknown as AccountRank;
         this.closeModal();
 
-        const toast = await this.toastController.create({
-          message: "Successfully created account.",
-          duration: 5000,
-          color: "success"
-        })
-        await toast.present();
+        this.showPopupMessage("Successfully modified rank.", false);
       } else {
-        const toast = await this.toastController.create({
-          message: "Failed to create account.",
-          duration: 4500,
-          color: "danger"
-
-        })
-        await toast.present();
+        this.showPopupMessage("Failed to modify rank.");
       }
-
     } catch (ex) {
-      const toast = await this.toastController.create({
-        message: "Failed to create field.",
-        duration: 4500,
-        color: "danger"
-
-      })
-      await toast.present();
+      this.showPopupMessage("Failed to modify rank.");
     }
   }
 
   closeModal() {
     this.modalController.dismiss();
+  }
+
+  async showPopupMessage(errorMessage: string, error: boolean = true) {
+    const toast = await this.toastController.create({
+      message: errorMessage,
+      duration: 4500,
+      color: error ? "danger" : "success"
+
+    })
+    await toast.present();
   }
 }

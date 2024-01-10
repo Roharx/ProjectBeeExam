@@ -10,10 +10,15 @@
   justify-content: center;
   flex-direction: column;
 }
+#accounts-container{
+  height: 600px;
+  overflow-y: scroll;
+}
 
-.account-container {
+.account-container{
   background-color: var(--grey-color);
   width: 1000px;
+  height: 70px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -22,11 +27,13 @@
   padding: 10px;
   border: var(--black-color) solid 1px;
   border-radius: 5px;
+
 }
 
 button {
-  height: 30px;
-  width: 60px;
+  padding: 5px;
+  width: 65px;
+  height: 40px;
   border: var(--black-color) solid 1px;
   border-radius: 5px;
   color: var(--black-color);
@@ -62,4 +69,7 @@ button {
 #top-bar {
   position: absolute;
   top: 0;
+}
+#middle-container{
+
 }

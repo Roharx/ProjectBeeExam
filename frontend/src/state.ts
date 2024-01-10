@@ -7,6 +7,7 @@ import {Account, Bee, Field, Hive} from "./models";
 export class State {
   accounts: Account[] = [];
   managers: Account[] = [];
+  keepers: Account[] = [];
   fields: Field[] = [];
   bees: Bee[] = [];
   selectedField: Field = {id: 0, location: "", name: ""};

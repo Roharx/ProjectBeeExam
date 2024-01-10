@@ -4,6 +4,7 @@ using BeeProject.TransferModels;
 using BeeProject.TransferModels.CreateRequests;
 using BeeProject.TransferModels.UpdateRequests;
 using infrastructure.QueryModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using service;
 
@@ -26,17 +27,20 @@ public class InventoryController : ControllerBase
         !IsUrlAllowed(Request.Headers["Referer"]) ? HandleInvalidRequest() : new ResponseDto { MessageToClient = $"Successfully {successMessage}.", ResponseData = action.Invoke() };
 
     [HttpGet]
+    [Authorize]
     [Route("/api/getInventory")]
     public ResponseDto GetAllInventory() =>
         new ResponseDto { MessageToClient = "Successfully fetched every inventory.", ResponseData = _inventoryService.GetAllInventoryItems() };
 
     [HttpPost]
+    [Authorize]
     [ValidateModel]
     [Route("/api/createInventory")]
     public ResponseDto CreateInventory([FromBody] CreateInventoryRequestDto dto) =>
         new ResponseDto { MessageToClient = "Successfully created an inventory.", ResponseData = _inventoryService.CreateInventoryItem(dto.FieldId, dto.Name, dto.Description, dto.Amount) };
 
     [HttpPut]
+    [Authorize]
     [ValidateModel]
     [Route("/api/updateInventory")]
     public ResponseDto UpdateInventory([FromBody] UpdateInventoryRequestDto dto) =>
@@ -55,6 +59,7 @@ public class InventoryController : ControllerBase
         }, "updated inventory");
 
     [HttpDelete]
+    [Authorize]
     [Route("/api/DeleteInventory/{id:int}")]
     public ResponseDto DeleteInventory([FromRoute] int id) =>
         ValidateAndProceed<ResponseDto>(() => { _inventoryService.DeleteInventoryItem(id); return null; }, "deleted inventory");

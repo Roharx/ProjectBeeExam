@@ -5,6 +5,7 @@ using BeeProject.TransferModels.CreateRequests;
 using BeeProject.TransferModels.UpdateRequests;
 using infrastructure.DataModels.Enums;
 using infrastructure.QueryModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using service;
 
@@ -27,20 +28,24 @@ public class AilmentController : ControllerBase
         !IsUrlAllowed(Request.Headers["Referer"]) ? HandleInvalidRequest() : new ResponseDto { MessageToClient = $"Successfully {successMessage}.", ResponseData = action.Invoke() };
 
     [HttpGet]
+    [Authorize]
     [Route("/api/getAilments")]
     public ResponseDto GetAllAilments() => new ResponseDto { MessageToClient = "Successfully fetched all ailments.", ResponseData = _ailmentService.GetAllAilments() };
 
     [HttpGet]
+    [Authorize]
     [Route("/api/getGlobalAilments")]
     public ResponseDto GetGlobalAilments() => new ResponseDto { MessageToClient = "Successfully fetched all ailments.", ResponseData = _ailmentService.GetGlobalAilments() };
 
     [HttpPost]
+    [Authorize]
     [ValidateModel]
     [Route("/api/createAilment")]
     public ResponseDto CreateAilment([FromBody] CreateAilmentRequestDto dto) =>
         new ResponseDto { MessageToClient = "Successfully created an ailment.", ResponseData = _ailmentService.CreateAilment(dto.Hive_Id, dto.Name, (AilmentSeverity)Enum.ToObject(typeof(AilmentSeverity), dto.Severity), dto.Solved, dto.Comment!) };
 
     [HttpPut]
+    [Authorize]
     [ValidateModel]
     [Route("/api/updateAilment")]
     public ResponseDto UpdateAilment([FromBody] UpdateAilmentRequestDto dto)
@@ -60,6 +65,7 @@ public class AilmentController : ControllerBase
 
     //TODO: change to safe later
     [HttpDelete]
+    [Authorize]
     [Route("/api/DeleteAilment/{id:int}")]
     public ResponseDto DeleteAilment([FromRoute] int id)
     {

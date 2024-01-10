@@ -1,15 +1,16 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {BeesFeedComponent} from "./components/beesFeed.component";
+import {BeesFeedComponent} from "./components/bees-feed.component";
 import {LoginComponent} from "./components/login.component";
 import {UserComponent} from "./components/user.component";
-import {FieldComponent} from "./components/field.component";
-import {CreateFieldComponent} from "./components/createField.component";
-import {CreateHiveComponent} from "./components/createHive.component";
-import {EditHiveComponent} from "./components/editHive.component";
+import {EditFieldComponent} from "./components/edit-field.component";
+import {CreateFieldModal} from "./modals/create-field.modal";
+import {CreateHiveModal} from "./modals/create-hive.modal";
+import {EditHiveModal} from "./modals/edit-hive.modal";
 import {AccountsComponent} from "./components/accounts.component";
-import {CreateAccountComponent} from "./components/createAccount.component";
-import {RankModalComponent} from "./components/rankModal.component";
+import {CreateAccountModal} from "./modals/create-account.modal";
+import {ChangeRankModal} from "./modals/change-rank.modal";
+import {ConfirmModal} from "./modals/confirm.modal";
 
 
 let routes: Routes;
@@ -18,13 +19,14 @@ routes = [
   {path: 'login-component', component: LoginComponent},
   {path: 'bees-feed', component: BeesFeedComponent},
   {path: 'user-component', component: UserComponent},
-  {path: 'field-component', component: FieldComponent},
-  {path: 'create-field-component', component: CreateFieldComponent},
-  {path: 'create-hive-component', component: CreateHiveComponent},
-  {path: 'edit-hive-component', component: EditHiveComponent},
+  {path: 'field-component', component: EditFieldComponent},
+  {path: 'create-field-component', component: CreateFieldModal},
+  {path: 'create-hive-component', component: CreateHiveModal},
+  {path: 'edit-hive-component', component: EditHiveModal},
   {path: 'accounts-component', component: AccountsComponent},
-  {path: 'create-account-component', component: CreateAccountComponent},
-  {path: 'rank-modal-component', component: RankModalComponent}
+  {path: 'create-account-component', component: CreateAccountModal},
+  {path: 'rank-modal-component', component: ChangeRankModal},
+  {path: 'confirm-modal', component: ConfirmModal}
 ];
 
 @NgModule({

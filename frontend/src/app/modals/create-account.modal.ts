@@ -32,11 +32,11 @@ import {ModalController} from '@ionic/angular';
       </div>
     </div>
   `,
-  styleUrls: ['../css/createField.component.scss'],
+  styleUrls: ['../scss/create-field.modal.scss'],
   selector: 'create-account-component'
 })
 
-export class CreateAccountComponent implements OnInit {
+export class CreateAccountModal implements OnInit {
 
 
   createAccountForm = this.fb.group({
@@ -45,8 +45,11 @@ export class CreateAccountComponent implements OnInit {
     password: ['', Validators.required]
   })
 
-  constructor(public fb: FormBuilder, public http: HttpClient, public state: State,
-              public toastController: ToastController, private router: Router, private tokenService: TokenService,
+  constructor(public fb: FormBuilder,
+              public http: HttpClient,
+              public state: State,
+              public toastController: ToastController,
+              private router: Router, private tokenService: TokenService,
               private modalController: ModalController) {
   }
 
@@ -65,50 +68,45 @@ export class CreateAccountComponent implements OnInit {
       const requestBody = {
         name: formValue.name,
         email: formValue.email,
-        password: '123456',//they'll need to assign their own password, an admin can't manage anyone's passwords, only a user should be able to
+        password: '123456', //placeholder
         rank: AccountRank.Guest
       };
 
       const createResponse = await firstValueFrom(
-        this.http.post<ResponseDto<number>>(environment.baseURL + '/api/createAccount', requestBody));
+        this.http.post<ResponseDto<number>>(environment.baseURL + '/api/createAccount', requestBody)
+      );
 
       if (createResponse != -1!) {
         this.closeModal();
 
-
         const newAccount: Account = {
-          email: requestBody.email!, id: createResponse.responseData!, name: requestBody.name!, rank: requestBody.rank
+          email: requestBody.email!,
+          id: createResponse.responseData!,
+          name: requestBody.name!,
+          rank: requestBody.rank
         }
 
         this.state.accounts.push(newAccount)
-        const toast = await this.toastController.create({
-          message: "Successfully created account.",
-          duration: 5000,
-          color: "success"
-        })
-        await toast.present();
+        this.showPopupMessage("Successfully created account.", false);
       } else {
-        const toast = await this.toastController.create({
-          message: "Failed to create account.",
-          duration: 4500,
-          color: "danger"
-
-        })
-        await toast.present();
+        this.showPopupMessage("Failed to create account.", true);
       }
 
     } catch (ex) {
-      const toast = await this.toastController.create({
-        message: "Failed to create field.",
-        duration: 4500,
-        color: "danger"
-
-      })
-      await toast.present();
+      this.showPopupMessage("Failed to create field.", true);
     }
   }
 
   closeModal() {
     this.modalController.dismiss();
+  }
+  async showPopupMessage(errorMessage: string, error: boolean = true) {
+    const toast = await this.toastController.create({
+      message: errorMessage,
+      duration: 4500,
+      color: error ? "danger" : "success"
+
+    })
+    await toast.present();
   }
 }

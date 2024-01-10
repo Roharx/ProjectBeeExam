@@ -4,6 +4,7 @@ using BeeProject.TransferModels;
 using BeeProject.TransferModels.CreateRequests;
 using BeeProject.TransferModels.UpdateRequests;
 using infrastructure.QueryModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using service;
 
@@ -26,16 +27,19 @@ public class BeeController : ControllerBase
         !IsUrlAllowed(Request.Headers["Referer"]) ? HandleInvalidRequest() : new ResponseDto { MessageToClient = $"Successfully {successMessage}.", ResponseData = action.Invoke() };
 
     [HttpGet]
+    [Authorize]
     [Route("/api/getBees")]
     public ResponseDto GetAllBees() => new ResponseDto { MessageToClient = "Successfully fetched all bees.", ResponseData = _beeService.GetAllBees() };
 
     [HttpPost]
+    [Authorize]
     [ValidateModel]
     [Route("/api/createBee")]
     public ResponseDto CreateBee([FromBody] CreateBeeRequestDto dto) =>
         new ResponseDto { MessageToClient = "Successfully created a bee.", ResponseData = _beeService.CreateBee(dto.Name, dto.Description, dto.Comment!) };
 
     [HttpPut]
+    [Authorize]
     [ValidateModel]
     [Route("/api/updateBee")]
     public ResponseDto UpdateBee([FromBody] UpdateBeeRequestDto dto) =>
@@ -54,6 +58,7 @@ public class BeeController : ControllerBase
 
     //TODO: change to safe later
     [HttpDelete]
+    [Authorize]
     [Route("/api/DeleteBee/{id:int}")]
     public ResponseDto DeleteBee([FromRoute] int id) =>
         ValidateAndProceed<ResponseDto>(() => { _beeService.DeleteBee(id); return null; }, "deleted bee");

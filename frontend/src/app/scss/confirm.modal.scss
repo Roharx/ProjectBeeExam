@@ -1,20 +1,29 @@
-#remove{
-  background-color: var(--grey-color);
+#bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#accept, #cancel {
   padding: 10px;
   width: 100px;
   border-width: 1px;
   border-style: solid;
   border-color: var(--black-color);
-  color: var(--red-color);
+  color: var(--black-color);
   font-weight: bold;
   font-size: 16px;
   transition: .2s;
 }
-#remove:hover{
-  color: var(--black-color);
+
+#accept:hover {
+  background-color: var(--green-color);
+}
+
+#cancel:hover {
   background-color: var(--red-color);
 }
-#remove:active{
-  color: var(--red-color);
+
+#accept:active, #cancel:active {
   background-color: var(--white-color);
 }

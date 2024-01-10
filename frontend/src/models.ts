@@ -41,7 +41,7 @@ export class Field {
   name!: string;
   location!: string;
   hives?: Hive[];
-  managers?: Account[];
+  accounts?: Account[];
 }
 
 export class Harvest {

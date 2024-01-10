@@ -31,10 +31,10 @@ import {environment} from "../../environments/environment";
             <ion-label position="floating">Location</ion-label>
             <ion-input [formControl]="editHiveForm.controls.location" aria-labelledby></ion-input>
           </ion-item>
-          <ion-item
-            [ngClass]="{'invalid-input': editHiveForm.controls.placement.invalid && editHiveForm.controls.placement.touched}">
+          <ion-item [ngClass]="{'invalid-input': editHiveForm.controls.placement.invalid && editHiveForm.controls.placement.touched}">
             <ion-label position="floating">Installed (yyyy-mm-dd)</ion-label>
-            <ion-input [formControl]="editHiveForm.controls.placement" aria-labelledby></ion-input>
+            <ion-input [formControl]="editHiveForm.controls.placement" aria-labelledby
+                       (input)="formatDate($event)" maxlength="10"></ion-input>
           </ion-item>
           <ion-item
             [ngClass]="{'invalid-input': editHiveForm.controls.last_Check.invalid && editHiveForm.controls.last_Check.touched}">
@@ -58,7 +58,7 @@ import {environment} from "../../environments/environment";
           <ion-item>
             <ion-label>Bee</ion-label>
             <ion-select placeholder="Select Bee" [formControl]="editHiveForm.controls.bee_Type"
-                        label="Bee">
+                        aria-label="Bee">
               <ion-select-option *ngFor="let bee of this.state.bees" [value]="bee.id">
                 {{ bee.name }}
               </ion-select-option>
@@ -73,11 +73,11 @@ import {environment} from "../../environments/environment";
       </div>
     </div>
   `,
-  styleUrls: ['../css/createField.component.scss', '../css/hive.component.scss'],
+  styleUrls: ['../scss/create-field.modal.scss', '../scss/edit-hive.modal.scss'],
   selector: 'edit-hive-component'
 })
 
-export class EditHiveComponent implements OnInit {
+export class EditHiveModal implements OnInit {
   hive: Hive = new Hive();
 
   editHiveForm = this.fb.group({//naming is different, fix in later update
@@ -93,10 +93,14 @@ export class EditHiveComponent implements OnInit {
     bee_Type: this.hive.bee_Type
   })
 
-  constructor(public fb: FormBuilder, public http: HttpClient, public state: State, private jwtService: JwtService,
-              public toastController: ToastController, private router: Router, private tokenService: TokenService,
-              private modalController: ModalController) {
-  }
+  constructor(public fb: FormBuilder,
+              public http: HttpClient,
+              public state: State,
+              public toastController: ToastController,
+              private router: Router,
+              private tokenService: TokenService,
+              private modalController: ModalController)
+  {  }
 
   ngOnInit(): void {
     const token = this.tokenService.getToken();
@@ -142,49 +146,27 @@ export class EditHiveComponent implements OnInit {
           if (response) {
             this.closeModal();
             //window.location.reload();
-            const toast = await this.toastController.create({
-              message: "Successfully updated hive.",
-              duration: 5000,
-              color: "success"
-            })
-            await toast.present();
+            this.showPopupMessage("Successfully updated hive.", false);
           } else {
-            const toast = await this.toastController.create({
-              message: "Failed to update hive.",
-              duration: 4500,
-              color: "danger"
-
-            })
-            await toast.present();
+            this.showPopupMessage("Failed to update hive.");
           }
         } catch (ex) {
 
         }
 
       } else {
-        const toast = await this.toastController.create({
-          message: "Please fill out all the fields correctly.",
-          duration: 4500,
-          color: "danger"
-
-        })
-        await toast.present();
+        this.showPopupMessage("Please fill out all the fields correctly.");
+        /*
         Object.keys(this.editHiveForm.controls).forEach(controlName => {
           const control = this.editHiveForm.get(controlName);
           if (control && control.invalid) {
             console.log(`Control "${controlName}" is invalid. Errors:`, control.errors);
           }
-        });
+        });*/
       }
 
     } catch (ex) {
-      const toast = await this.toastController.create({
-        message: "Failed to update hive.",
-        duration: 4500,
-        color: "danger"
-
-      })
-      await toast.present();
+      this.showPopupMessage("Failed to update hive.");
     }
   }
 
@@ -201,24 +183,38 @@ export class EditHiveComponent implements OnInit {
       );
       this.closeModal();
       window.location.reload();
-      const toast = await this.toastController.create({
-        message: "Successfully removed field.",
-        duration: 5000,
-        color: "success"
-      })
-      await toast.present();
+      this.showPopupMessage("Successfully removed field.", false);
     } catch (ex) {
-      const toast = await this.toastController.create({
-        message: "Something went wrong.",
-        duration: 5000,
-        color: "danger"
-      })
-      await toast.present();
+      this.showPopupMessage("Something went wrong.");
     }
   }
+  formatDate(event: any) {
+    let value = event.target.value.replace(/[^0-9]/g, '');
 
+    let formattedValue = '';
+    for (let i = 0; i < value.length; i++) {
+      if (i === 4 || i === 6) {
+        formattedValue += '-';
+      }
+      formattedValue += value[i];
+    }
+
+    // Check if the formatted value exceeds the maxlength
+    if (formattedValue.length <= 10) {
+      this.editHiveForm.controls.placement.setValue(formattedValue);
+    }
+  }
   toggleReady() {
     this.hive.ready = !this.hive.ready;
     console.log(this.hive.ready);
+  }
+  async showPopupMessage(errorMessage: string, error: boolean = true) {
+    const toast = await this.toastController.create({
+      message: errorMessage,
+      duration: 4500,
+      color: error ? "danger" : "success"
+
+    })
+    await toast.present();
   }
 }

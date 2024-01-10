@@ -7,6 +7,13 @@
   top: 0;
   overflow-y: scroll;
 }
+#interface{
+  height: 90%;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 #interface-top{
   display: flex;
   justify-content: space-between;
@@ -35,12 +42,26 @@
     color: var(--black-color);
   }
 }
-
-.remove-button{
+button[disabled]{
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+button[disabled]:hover{
+  box-shadow: none;
+  transition: none;
+  transform: none;
+}
+.remove-manager-button{
   background-color: var(--red-color);
+  height: 40px;
+  width: 40px;
+  margin: 5px;
 }
 .add-manager-button{
   background-color: var(--green-color);
+  height: 40px;
+  width: 40px;
+  margin: 5px;
 }
 #interface-bottom{
   display: flex;
@@ -77,5 +98,39 @@
 #remove-button{
   background-color: var(--grey-color);
   color: var(--red-color);
+  transition: .4s;
+}
+#remove-button:hover{
+  color: var(--grey-color);
+  background-color: var(--red-color);
+}
+.table-container{
+  width: 100%;
+  height: 400px;
+  overflow-y: scroll;
+  display: flex;
+}
+.select-table{
+  width: 500px;
+  max-height: 80px;
+  margin: 5px;
+  background-color: var(--light-grey);
+  border: var(--black-color) solid 1px;
+  border-radius: 10px;
+}
+.select-table th, .select-table td {
+  border: var(--black-color) solid 1px;
+  border-radius: 10px;
+  height: 40px;
+}
+.select-table th {
+  text-align: center;
+}
 
+.select-table td {
+  text-align: center;
+}
+
+.select-table td:last-child {
+  text-align: center;
 }

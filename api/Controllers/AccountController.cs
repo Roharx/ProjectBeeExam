@@ -5,6 +5,7 @@ using BeeProject.TransferModels.CreateRequests;
 using BeeProject.TransferModels.UpdateRequests;
 using infrastructure.DataModels.Enums;
 using infrastructure.QueryModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using service;
 
@@ -34,7 +35,7 @@ namespace BeeProject.Controllers
 
         private ResponseDto ValidateAndProceed<T>(Func<T> action, string successMessage)
         {
-            if (!IsUrlAllowed(Request.Headers["Referer"]))
+            if (!IsUrlAllowed(Request.Headers["Referer"]!))
             {
                 return HandleInvalidRequest();
             }
@@ -47,6 +48,7 @@ namespace BeeProject.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("/api/getAccounts")]
         public ResponseDto GetAllAccounts()
         {
@@ -54,6 +56,7 @@ namespace BeeProject.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("/api/getAccountsForField/{id:int}")]
         public ResponseDto GetAccountsForField([FromRoute] int id)
         {
@@ -61,6 +64,7 @@ namespace BeeProject.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateModel]
         [Route("/api/createAccount")]
         public ResponseDto CreateAccount([FromBody] CreateAccountRequestDto dto)
@@ -69,6 +73,7 @@ namespace BeeProject.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [ValidateModel]
         [Route("/api/updateAccount")]
         public ResponseDto UpdateAccount([FromBody] UpdateAccountRequestDto dto)
@@ -91,6 +96,7 @@ namespace BeeProject.Controllers
         }
 
         [HttpDelete] 
+        [Authorize]
         [Route("/api/DeleteAccount/{id:int}")]
         public ResponseDto DeleteAccount([FromRoute] int id)
         {
@@ -98,6 +104,8 @@ namespace BeeProject.Controllers
         }
 
         [HttpPut]
+        [Authorize]
+        [AllowAnonymous]
         [Route("/api/checkPassword")]
         public ResponseDto CheckPassword([FromBody] CredentialCheckRequestDto dto)
         {
@@ -105,13 +113,22 @@ namespace BeeProject.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("/api/getManagers")]
         public ResponseDto GetManagers()
         {
             return ValidateAndProceed(() => _accountService.GetAccountNamesForRank(AccountRank.FieldManager), "retrieved all managers");
         }
+        [HttpGet]
+        [Authorize]
+        [Route("/api/getKeepers")]
+        public ResponseDto GetKeepers()
+        {
+            return ValidateAndProceed(() => _accountService.GetAccountNamesForRank(AccountRank.Keeper), "retrieved all managers");
+        }
         
         [HttpPut]
+        [Authorize]
         [Route("/api/modifyRank")]
         public ResponseDto ModifyAccountRank([FromBody] AccountRankUpdateDto dto)
         {

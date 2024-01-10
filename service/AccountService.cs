@@ -1,4 +1,6 @@
-﻿using infrastructure.DataModels.Enums;
+﻿using System.Security.Cryptography;
+using CryptSharp;
+using infrastructure.DataModels.Enums;
 using infrastructure.QueryModels;
 using infrastructure.Repositories;
 
@@ -28,7 +30,8 @@ public class AccountService
     //TODO: global exception handler
     public int CreateAccount(string accountName, string accountEmail, string accountPassword, AccountRank accountRank)
     {
-        var hashed = CryptSharp.Crypter.Blowfish.Crypt(accountPassword);
+        var salt = Crypter.Blowfish.GenerateSalt();
+        var hashed = Crypter.Blowfish.Crypt(accountPassword, salt);
         var result = _accountRepository.CreateAccount(accountName, accountEmail, hashed, (int)accountRank);
         return result != -1 ? result : throw new Exception("Username is already taken.");
     }

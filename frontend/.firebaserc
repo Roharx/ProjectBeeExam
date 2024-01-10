@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "project-bee-1d3fb"
-  }
+    "default": "project-bee-1d3fb",
+    "yes": "project-bee-1d3fb"
+  },
+  "targets": {},
+  "etags": {}
 }

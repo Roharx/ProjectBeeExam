@@ -6,12 +6,18 @@
     &lt;TestId&gt;NUnit3x::62EE459B-FEF4-0BE8-0E30-158CFDB19555::net8.0::PlaywrightTests.Tests.CreateFieldCorrectly&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=61e7ca9b_002D9b33_002D4b74_002D877b_002D7b3711e6254c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CanFieldBeFound" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=61e7ca9b_002D9b33_002D4b74_002D877b_002D7b3711e6254c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CanFieldBeFound" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::62EE459B-FEF4-0BE8-0E30-158CFDB19555::net8.0::PlaywrightTests.Tests.CanFieldBeFound&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::62EE459B-FEF4-0BE8-0E30-158CFDB19555::net8.0::PlaywrightTests.Tests.WrongUsernameAndPassword&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::62EE459B-FEF4-0BE8-0E30-158CFDB19555::net8.0::PlaywrightTests.Tests.RightUsernameAndPassword&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::62EE459B-FEF4-0BE8-0E30-158CFDB19555::net8.0::PlaywrightTests.Tests.CreateFieldCorrectly&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::62EE459B-FEF4-0BE8-0E30-158CFDB19555::net8.0::AuthenticationTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::62EE459B-FEF4-0BE8-0E30-158CFDB19555::net8.0::AuthenticationTests.RightUsernameAndPassword&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::62EE459B-FEF4-0BE8-0E30-158CFDB19555::net8.0::AuthenticationTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::62EE459B-FEF4-0BE8-0E30-158CFDB19555::net8.0::PlaywrightTests.Tests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a679034d_002D8ec2_002D42a3_002Da51b_002Dc044b0060905/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a679034d_002D8ec2_002D42a3_002Da51b_002Dc044b0060905/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::62EE459B-FEF4-0BE8-0E30-158CFDB19555::net8.0::PlaywrightTests.Tests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;

@@ -4,6 +4,7 @@ using BeeProject.TransferModels;
 using BeeProject.TransferModels.CreateRequests;
 using BeeProject.TransferModels.UpdateRequests;
 using infrastructure.QueryModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using service;
 
@@ -26,17 +27,20 @@ public class TaskController : ControllerBase
         !IsUrlAllowed(Request.Headers["Referer"]) ? HandleInvalidRequest() : new ResponseDto { MessageToClient = $"Successfully {successMessage}.", ResponseData = action.Invoke() };
 
     [HttpGet]
+    [Authorize]
     [Route("/api/getTask")]
     public ResponseDto GetAllTask() =>
         new ResponseDto { MessageToClient = "Successfully fetched every task.", ResponseData = _taskService.GetAllTasks() };
 
     [HttpPost]
+    [Authorize]
     [ValidateModel]
     [Route("/api/createTask")]
     public ResponseDto CreateTask([FromBody] CreateTaskRequestDto dto) =>
         new ResponseDto { MessageToClient = "Successfully created a task.", ResponseData = _taskService.CreateTask(dto.HiveId, dto.Name, dto.Description!, dto.Done) };
 
     [HttpPut]
+    [Authorize]
     [ValidateModel]
     [Route("/api/updateTask")]
     public ResponseDto UpdateTask([FromBody] UpdateTaskRequestDto dto) =>
@@ -56,6 +60,7 @@ public class TaskController : ControllerBase
 
     // TODO: change to safe later
     [HttpDelete]
+    [Authorize]
     [Route("/api/DeleteTask/{id:int}")]
     public ResponseDto DeleteTask([FromRoute] int id) =>
         ValidateAndProceed<ResponseDto>(() => { _taskService.DeleteTask(id); return null; }, "deleted task");

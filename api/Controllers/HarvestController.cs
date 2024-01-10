@@ -4,6 +4,7 @@ using BeeProject.TransferModels;
 using BeeProject.TransferModels.CreateRequests;
 using BeeProject.TransferModels.UpdateRequests;
 using infrastructure.QueryModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using service;
 
@@ -26,16 +27,19 @@ public class HarvestController : ControllerBase
         !IsUrlAllowed(Request.Headers["Referer"]) ? HandleInvalidRequest() : new ResponseDto { MessageToClient = $"Successfully {successMessage}.", ResponseData = action.Invoke() };
 
     [HttpGet]
+    [Authorize]
     [Route("/api/getHarvests")]
     public ResponseDto GetAllHarvests() => new ResponseDto { MessageToClient = "Successfully fetched all harvests.", ResponseData = _harvestService.GetAllHarvests() };
 
     [HttpPost]
+    [Authorize]
     [ValidateModel]
     [Route("/api/createHarvest")]
     public ResponseDto CreateHarvest([FromBody] CreateHarvestRequestDto dto) =>
         new ResponseDto { MessageToClient = "Successfully created a harvest.", ResponseData = _harvestService.CreateHarvest(dto.HiveId, dto.Time, dto.HoneyAmount, dto.BeeswaxAmount, dto.Comment) };
 
     [HttpPut]
+    [Authorize]
     [ValidateModel]
     [Route("/api/updateHarvest")]
     public ResponseDto UpdateHarvest([FromBody] UpdateHarvestRequestDto dto) =>
@@ -48,6 +52,7 @@ public class HarvestController : ControllerBase
 
     //TODO: change to safe later
     [HttpDelete]
+    [Authorize]
     [Route("/api/DeleteHarvest/{id:int}")]
     public ResponseDto DeleteHarvest([FromRoute] int id) =>
         ValidateAndProceed<ResponseDto>(() => { _harvestService.DeleteHarvest(id); return null; }, "deleted harvest");

@@ -42,11 +42,11 @@ import {ModalController} from '@ionic/angular';
       </div>
     </div>
   `,
-  styleUrls: ['../css/createField.component.scss'],
+  styleUrls: ['../scss/create-field.modal.scss'],
   selector: 'create-field-component'
 })
 
-export class CreateFieldComponent implements OnInit {
+export class CreateFieldModal implements OnInit {
 
 
   createFieldForm = this.fb.group({
@@ -55,10 +55,15 @@ export class CreateFieldComponent implements OnInit {
     manager: ['', Validators.required]
   })
 
-  constructor(public fb: FormBuilder, public http: HttpClient, public state: State,
-              public toastController: ToastController, private router: Router, private tokenService: TokenService,
-              private modalController: ModalController) {
-  }
+  constructor(
+    public fb: FormBuilder,
+    public http: HttpClient,
+    public state: State,
+    public toastController: ToastController,
+    private router: Router,
+    private tokenService: TokenService,
+    private modalController: ModalController
+  ) { }
 
   ngOnInit(): void {
     const token = this.tokenService.getToken();
@@ -90,34 +95,26 @@ export class CreateFieldComponent implements OnInit {
       if (connectResponse) {
         this.closeModal();
         window.location.reload();
-        const toast = await this.toastController.create({
-          message: "Successfully created Field.",
-          duration: 5000,
-          color: "success"
-        })
-        await toast.present();
+        this.showPopupMessage("Successfully created Field.", false);
       } else {
-        const toast = await this.toastController.create({
-          message: "Failed to create field.",
-          duration: 4500,
-          color: "danger"
-
-        })
-        await toast.present();
+        this.showPopupMessage("Failed to create field.");
       }
 
     } catch (ex) {
-      const toast = await this.toastController.create({
-        message: "Failed to create field.",
-        duration: 4500,
-        color: "danger"
-
-      })
-      await toast.present();
+      this.showPopupMessage("Failed to create field.");
     }
   }
 
   closeModal() {
     this.modalController.dismiss();
+  }
+  async showPopupMessage(errorMessage: string, error: boolean = true) {
+    const toast = await this.toastController.create({
+      message: errorMessage,
+      duration: 4500,
+      color: error ? "danger" : "success"
+
+    })
+    await toast.present();
   }
 }

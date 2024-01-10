@@ -6,7 +6,7 @@ public class Whitelist
     {
         "http://localhost:4200/",
         "http://localhost:5001/",
-        "https://project-bee-1d3fb.web.app/",
+        "https://project-bee-1d3fb.web.app",
         "https://project-bee-1d3fb.firebaseapp.com/",
         "https://project-bee-1d3fb"
     };

@@ -1,14 +1,13 @@
 import {Component} from "@angular/core";
 import {FormBuilder, Validators} from "@angular/forms";
 import {firstValueFrom} from "rxjs";
-import {Account, Field, ResponseDto} from "../../models";
+import {ResponseDto} from "../../models";
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ToastController} from "@ionic/angular";
 import {State} from "../../state";
 import {Router} from '@angular/router';
 import {TokenService} from "../services/token.service";
-import {JwtService} from "../services/jwt.service";
 
 @Component({
   template: `
@@ -44,7 +43,7 @@ import {JwtService} from "../services/jwt.service";
 
 
   `,
-  styleUrls: ['../css/login.component.scss'],
+  styleUrls: ['../scss/login.component.scss'],
   selector: 'login-component'
 })
 
@@ -54,55 +53,37 @@ export class LoginComponent {
     password: ['', Validators.required]
   })
 
-  constructor(public fb: FormBuilder, public http: HttpClient, public state: State, private jwtService: JwtService,
-              public toastController: ToastController, private router: Router, private tokenService: TokenService) {
-  }
+  constructor(
+    public fb: FormBuilder,
+    public http: HttpClient,
+    public state: State,
+    public toastController: ToastController,
+    private router: Router,
+    private tokenService: TokenService
+  ) {}
 
   async login() {
     try {
-      const response =
-        await firstValueFrom(this.http.put<ResponseDto<string>>(environment.baseURL + '/api/checkPassword', this.loginForm.getRawValue()));
+      const response = await firstValueFrom(
+        this.http.put<ResponseDto<string>>(
+          environment.baseURL + '/api/checkPassword',
+          this.loginForm.getRawValue()
+        )
+      );
 
-      if (response.responseData != null) {
-        this.onSuccessfulLogin(response.responseData)
-      } else {
-        const toast = await this.toastController.create({
-          message: "Wrong username or password!",
-          duration: 4500,
-          color: "danger"
-        })
-        await toast.present();
-      }
+      response.responseData !== null
+        ? this.onSuccessfulLogin(response.responseData!)
+        : await this.showErrorMessage("Wrong username or password!");
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
-        const toast = await this.toastController.create({
-          message: error.error.messageToClient,
-          duration: 4500,
-          color: "danger"
-
-        })
-        await toast.present();
+        await this.showErrorMessage(error.error.messageToClient);
       }
     }
-
-
   }
 
   async onSuccessfulLogin(token: string) {
-    const username = this.loginForm.getRawValue().username!.toString();
-
     this.tokenService.saveToken(token);
-    const decodedToken = this.jwtService.decodeToken(token);
-    const rank = decodedToken ? decodedToken['rank'] : null;
-    if (rank > 0)
       this.router.navigate(['/bees-feed']);
-    else {
-      var response = await firstValueFrom(
-        this.http.get<ResponseDto<Account[]>>(environment.baseURL + '/api/getAccounts/'));
-      this.state.accounts = response.responseData!;
-      this.router.navigate(['/accounts-component']);
-    }
-
   }
 
   focusPasswordInput() {
@@ -110,5 +91,14 @@ export class LoginComponent {
     if (passwordInput) {
       passwordInput.focus();
     }
+  }
+
+  private async showErrorMessage(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 4500,
+      color: "danger",
+    });
+    await toast.present();
   }
 }
