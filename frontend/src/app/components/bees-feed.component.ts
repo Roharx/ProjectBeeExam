@@ -4,7 +4,7 @@ import {ModalController, ToastController} from "@ionic/angular";
 import { firstValueFrom } from "rxjs";
 import { Account, Bee, Field, Hive, ResponseDto } from "../../models";
 import { environment } from "../../environments/environment";
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { JwtService } from "../services/jwt.service";
 import { TokenService } from "../services/token.service";
 import { State } from "../../state";
@@ -114,6 +114,7 @@ export class BeesFeedComponent implements OnInit {
   }
 
   private async getFieldsForAccount(decodedToken: any): Promise<void> {
+
     const response = await firstValueFrom(
       this.http.get<ResponseDto<Field[]>>(
         `${
@@ -131,6 +132,7 @@ export class BeesFeedComponent implements OnInit {
       const response = await firstValueFrom(
         this.http.get<ResponseDto<Hive[]>>(
           `${environment.baseURL}/api/getHivesForField/${field.id}`
+
         )
       );
       field.hives = response.responseData || [];
