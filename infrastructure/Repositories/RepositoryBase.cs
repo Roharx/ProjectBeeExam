@@ -1,9 +1,10 @@
 ﻿using Dapper;
+using infrastructure.Interfaces;
 using Npgsql;
 
 namespace infrastructure.Repositories;
 
-public class RepositoryBase
+public class RepositoryBase : IRepository
 {
     private readonly NpgsqlDataSource _dataSource;
 
@@ -18,7 +19,7 @@ public class RepositoryBase
     /// <param name="tableName">Name of the table.</param>
     /// <typeparam name="T">The expected value (eg.: AccountQuery)</typeparam>
     /// <returns>An IEnumerable<T> with the type given to it.</returns>
-    protected IEnumerable<T> GetAllItems<T>(string tableName)
+    public IEnumerable<T> GetAllItems<T>(string tableName)
     {
         var sql = $"SELECT * FROM {tableName}";
 
@@ -42,7 +43,7 @@ public class RepositoryBase
     /// <param name="parameters">Parameters that the DB requires</param>
     /// <typeparam name="T">The expected value (eg.: AccountQuery)</typeparam>
     /// <returns></returns>
-    protected IEnumerable<T> GetItemsByParameters<T>(string tableName, object parameters)
+    public IEnumerable<T> GetItemsByParameters<T>(string tableName, object parameters)
     {
         var properties = parameters.GetType().GetProperties();
         var whereClause = string.Join(" AND ", properties.Select(prop => $"{prop.Name} = @{prop.Name}"));
@@ -61,13 +62,13 @@ public class RepositoryBase
     }
 
     /// <summary>
-    /// 
+    /// Return a single item for the parameters. It is a generic code which allows different parameter types and amounts.
     /// </summary>
     /// <param name="tableName">Name of the table.</param>
     /// <param name="parameters">Parameters that the DB requires</param>
     /// <typeparam name="T">The expected value (eg.: AccountQuery)</typeparam>
     /// <returns></returns>
-    protected T? GetSingleItemByParameters<T>(string tableName, object parameters)
+    public T? GetSingleItemByParameters<T>(string tableName, object parameters)
     {
         var properties = parameters.GetType().GetProperties();
         var whereClause = string.Join(" AND ", properties.Select(prop => $"{prop.Name} = @{prop.Name}"));
@@ -86,12 +87,12 @@ public class RepositoryBase
     }
 
     /// <summary>
-    /// 
+    /// Removes an item from the database. It is a generic code which allows different parameter types.
     /// </summary>
     /// <param name="tableName">Name of the table.</param>
     /// <param name="itemId"></param>
     /// <returns></returns>
-    protected bool DeleteItem(string tableName, int itemId)
+    public bool DeleteItem(string tableName, int itemId)
     {
         var sql = $"DELETE FROM {tableName} WHERE id=@id";
         try
@@ -108,13 +109,13 @@ public class RepositoryBase
     }
 
     /// <summary>
-    /// This method is used to create a row inside a table in the database. It is a generic code which allows different parameter types and amounts.
+    /// Creates a row inside a table in the database. It is a generic code which allows different parameter types and amounts.
     /// </summary>
     /// <param name="tableName">The name of the table in the DB</param>
     /// <param name="parameters">Parameters that the DB requires</param>
     /// <typeparam name="T">The expected value (eg.: AccountQuery)</typeparam>
     /// <returns></returns>
-    protected int CreateItem<T>(string tableName, object parameters)
+    public int CreateItem<T>(string tableName, object parameters)
     {
         var properties = parameters.GetType().GetProperties();
         var columns = string.Join(", ", properties.Select(prop => prop.Name));
@@ -142,7 +143,7 @@ public class RepositoryBase
     /// <param name="conditionColumnName">The name of the column which the row can be found by inside the DB.</param>
     /// <typeparam name="T">The type of the entity.</typeparam>
     /// <returns>Returns a boolean value if the update was successful or not.</returns>
-    protected bool UpdateEntity<T>(string tableName, T entity, string conditionColumnName)
+    public bool UpdateEntity<T>(string tableName, T entity, string conditionColumnName)
     {
         var properties = typeof(T).GetProperties();
 
@@ -161,6 +162,61 @@ public class RepositoryBase
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);//TODO: remove after development
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Modifies items in the specified table based on the given parameters and new values.
+    /// Usage example:
+    /// var conditionColumns = new Dictionary&lt;string, object&gt;
+    /// {
+    /// { "foreign_key1", 123 },
+    /// { "foreign_key2", 456 }
+    /// };
+    /// 
+    /// var modifications = new Dictionary&lt;string, object&gt;
+    /// {
+    /// { "rank", 5 },
+    /// { "status", "active" }
+    /// };
+    /// repository.ModifyItem("account", conditionColumns, modifications);
+    /// </summary>
+    /// <param name="tableName">Name of the table inside the DB.</param>
+    /// <param name="conditionColumns">A dictionary containing the column names and their corresponding values to be identified by.</param>
+    /// <param name="modifications">A dictionary containing the column names and their corresponding new values.</param>
+    /// <returns>Returns a boolean value if the modification was successful or not.</returns>
+    public bool ModifyItem(string tableName, Dictionary<string, object> conditionColumns, Dictionary<string, object> modifications)
+    {
+        var conditionClauses = string.Join(" AND ", conditionColumns.Select(cond => $"{cond.Key} = @{cond.Key}"));
+        var updateSet = string.Join(", ", modifications.Select(mod => $"{mod.Key} = @{mod.Key}"));
+    
+        var sql = $"UPDATE {tableName} SET {updateSet} WHERE {conditionClauses}";
+
+        try
+        {
+            using var conn = _dataSource.OpenConnection();
+
+            var parameters = new Dictionary<string, object>();
+        
+            // Add condition columns to the parameters
+            foreach (var conditionColumn in conditionColumns)
+            {
+                parameters.Add(conditionColumn.Key, conditionColumn.Value);
+            }
+
+            // Add modifications to the parameters
+            foreach (var modification in modifications)
+            {
+                parameters.Add(modification.Key, modification.Value);
+            }
+
+            conn.Execute(sql, parameters);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message); // TODO: remove after development
             return false;
         }
     }
