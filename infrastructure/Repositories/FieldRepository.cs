@@ -7,7 +7,7 @@ namespace infrastructure.Repositories;
 public class FieldRepository : RepositoryBase
 {
     private readonly NpgsqlDataSource _dataSource;
-
+    //TODO: removal in progress
     public FieldRepository(NpgsqlDataSource dataSource) : base(dataSource)
     {
         _dataSource = dataSource;

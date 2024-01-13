@@ -9,7 +9,7 @@ namespace infrastructure.Repositories;
 public class AilmentRepository : RepositoryBase
 {
     private readonly NpgsqlDataSource _dataSource;
-
+    //TODO: removal in progress
     public AilmentRepository(NpgsqlDataSource dataSource) : base(dataSource)
     {
         _dataSource = dataSource;

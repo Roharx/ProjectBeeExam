@@ -6,7 +6,7 @@ namespace service;
 public class FieldService
 {
     private readonly FieldRepository _fieldRepository;
-
+    //TODO: refactoring in progress
     public FieldService(FieldRepository fieldRepository)
     {
         _fieldRepository = fieldRepository;

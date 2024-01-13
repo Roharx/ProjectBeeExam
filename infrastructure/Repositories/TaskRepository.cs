@@ -6,7 +6,7 @@ namespace infrastructure.Repositories;
 public class TaskRepository : RepositoryBase
 {
     private readonly NpgsqlDataSource _dataSource;
-
+    //TODO: removal in progress
     public TaskRepository(NpgsqlDataSource dataSource) : base(dataSource)
     {
         _dataSource = dataSource;

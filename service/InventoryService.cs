@@ -7,7 +7,7 @@ namespace service;
 public class InventoryService
 {
     private readonly InventoryRepository _inventoryRepository;
-
+    //TODO: refactoring in progress
     public InventoryService(InventoryRepository inventoryRepository)
     {
         _inventoryRepository = inventoryRepository;

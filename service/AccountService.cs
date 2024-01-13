@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 using CryptSharp;
 using infrastructure.DataModels.Enums;
+using infrastructure.Interfaces;
 using infrastructure.QueryModels;
 using infrastructure.Repositories;
 
@@ -8,23 +9,23 @@ namespace service;
 
 public class AccountService
 {
-    private readonly AccountRepository _accountRepository;
+    private readonly IRepository _repository;
     private readonly ITokenService _tokenService;
 
-    public AccountService(AccountRepository accountRepository, ITokenService tokenService)
+    public AccountService(IRepository repository, ITokenService tokenService)
     {
-        _accountRepository = accountRepository;
+        _repository = repository;
         _tokenService = tokenService;
     }
 
     public IEnumerable<AccountSafeQuery> GetAllAccounts()
     {
-        return _accountRepository.GetAllAccounts();
+        return _repository.GetAllItems<AccountSafeQuery>("account");
     }
 
     public IEnumerable<AccountSafeQuery> GetAccountNamesForRank(AccountRank rank)
     {
-        return _accountRepository.GetAccountNamesForRank((int)rank);
+        return _repository.GetItemsByParameters<AccountSafeQuery>("account", new { rank = (int)rank });
     }
 
     //TODO: global exception handler
@@ -32,22 +33,31 @@ public class AccountService
     {
         var salt = Crypter.Blowfish.GenerateSalt();
         var hashed = Crypter.Blowfish.Crypt(accountPassword, salt);
-        var result = _accountRepository.CreateAccount(accountName, accountEmail, hashed, (int)accountRank);
+
+        var createItemParameters = new
+        {
+            name = accountName,
+            email = accountEmail,
+            password = hashed,
+            rank = (int)accountRank
+        };
+
+        var result = _repository.CreateItem<AccountQuery>("account", createItemParameters);
         return result != -1 ? result : throw new Exception("Username is already taken.");
     }
 
     public void UpdateAccount(AccountQuery account)
     {
-        var hashed = CryptSharp.Crypter.Blowfish.Crypt(account.Password);
+        var hashed = Crypter.Blowfish.Crypt(account.Password);
         account.Password = hashed;
-        var result = _accountRepository.UpdateAccount(account);
+        var result = _repository.UpdateEntity("account", account, "id");
         if (!result)
             throw new Exception("Could not update account.");
     }
 
     public void DeleteAccount(int accountId)
     {
-        var result = _accountRepository.DeleteAccount(accountId);
+        var result = _repository.DeleteItem("account", accountId);
         if (!result)
             throw new Exception("Could not remove account.");
     }
@@ -55,24 +65,36 @@ public class AccountService
     public string CheckCredentials(string userName, string password)
     {
         //TODO: check later
-        var account = _accountRepository.GetAccountByName(userName);
-        if (account != null && CryptSharp.Crypter.CheckPassword(password, account.Password))
+        var account = _repository.GetSingleItemByParameters<AccountQuery>("account", new { name = userName });
+        if (account != null && Crypter.CheckPassword(password, account.Password))
         {
             return _tokenService.GenerateToken(account);
         }
+
         return null!;
     }
+
     public IEnumerable<AccountSafeQuery> GetAccountsForField(int fieldId)
     {
-        var accountIds = _accountRepository.GetAccountsForField(fieldId).ToArray();
+        var accountIds = _repository.GetSelectedParametersForItems<int>
+            ("account_field", "account_id", new {field_id = fieldId}).ToArray();
 
         return accountIds.Length != 0
-            ? accountIds.Select(id => _accountRepository.GetAccountById(id)).ToList()
+            ? accountIds.Select(id => _repository.GetSingleItemByParameters<AccountSafeQuery>("account", new {id})).ToList()!
             : Enumerable.Empty<AccountSafeQuery>();
     }
 
     public bool ModifyRank(int accountId, int rank)
     {
-        return _accountRepository.ModifyAccountRank(accountId, rank);
+        var conditionColumn = new Dictionary<string, object>
+        {
+            { "id", accountId }
+        };
+        
+        var modifications = new Dictionary<string, object>
+        {
+            { "rank", rank }
+        };
+        return _repository.ModifyItem("account", conditionColumn, modifications);
     }
 }

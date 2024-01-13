@@ -9,7 +9,7 @@ namespace service;
 public class AilmentService
 {
     private readonly AilmentRepository _ailmentRepository;
-
+    //TODO: refactoring in progress
     public AilmentService(AilmentRepository ailmentRepository)
     {
         _ailmentRepository = ailmentRepository;

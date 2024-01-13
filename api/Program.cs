@@ -1,6 +1,7 @@
 using System.Text;
 using BeeProject.Middleware;
 using infrastructure;
+using infrastructure.Interfaces;
 using infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -25,8 +26,9 @@ if (builder.Environment.IsProduction())
 }
 
 builder.Services.AddSingleton<ITokenService, TokenService>();
+
 // Repositories
-builder.Services.AddSingleton<AccountRepository>();
+builder.Services.AddSingleton<IRepository, RepositoryBase>();
 builder.Services.AddSingleton<AilmentRepository>();
 builder.Services.AddSingleton<BeeRepository>();
 builder.Services.AddSingleton<FieldRepository>();

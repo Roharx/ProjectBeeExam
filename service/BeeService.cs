@@ -7,7 +7,7 @@ namespace service;
 public class BeeService
 {
     private readonly BeeRepository _beeRepository;
-
+    //TODO: refactoring in progress
     public BeeService(BeeRepository beeRepository)
     {
         _beeRepository = beeRepository;

@@ -6,7 +6,7 @@ namespace infrastructure.Repositories;
 public class HarvestRepository : RepositoryBase
 {
     private readonly NpgsqlDataSource _dataSource;
-
+    //TODO: removal in progress
     public HarvestRepository(NpgsqlDataSource dataSource) : base(dataSource)
     {
         _dataSource = dataSource;

@@ -10,7 +10,7 @@ namespace BeeProject.Controllers;
 [Authorize]
 [Route("api")]
 public class ControllerBase<TService, TDto> : ControllerBase
-    where TService : IService<TDto>
+    //where TService : IService<TDto>
     where TDto : class
 {
     private readonly TService _service;

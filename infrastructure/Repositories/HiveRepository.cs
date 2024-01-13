@@ -7,7 +7,7 @@ namespace infrastructure.Repositories;
 public class HiveRepository : RepositoryBase
 {
     private NpgsqlDataSource _dataSource;
-
+    //TODO: removal in progress
     public HiveRepository(NpgsqlDataSource dataSource) : base(dataSource)
     {
         _dataSource = dataSource;

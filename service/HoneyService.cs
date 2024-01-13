@@ -6,7 +6,7 @@ namespace service;
 public class HoneyService
 {
     private readonly HoneyRepository _honeyRepository;
-
+    //TODO: refactoring in progress
     public HoneyService(HoneyRepository honeyRepository)
     {
         _honeyRepository = honeyRepository;

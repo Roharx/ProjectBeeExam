@@ -7,7 +7,7 @@ namespace service;
 public class HarvestService
 {
     private readonly HarvestRepository _harvestRepository;
-
+    //TODO: refactoring in progress
     public HarvestService(HarvestRepository harvestRepository)
     {
         _harvestRepository = harvestRepository;

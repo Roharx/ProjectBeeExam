@@ -8,7 +8,7 @@ public class RepositoryBase : IRepository
 {
     private readonly NpgsqlDataSource _dataSource;
 
-    protected RepositoryBase(NpgsqlDataSource dataSource)
+    public RepositoryBase(NpgsqlDataSource dataSource)
     {
         _dataSource = dataSource;
     }
@@ -58,6 +58,31 @@ public class RepositoryBase : IRepository
         {
             Console.WriteLine(ex.Message);//TODO: remove after development
             throw new Exception("crap");
+        }
+    }
+    
+    /// <summary>
+    /// Returns selected parameters from the given table inside the database that meet the specified conditions.
+    /// </summary>
+    /// <param name="tableName">Name of the table.</param>
+    /// <param name="columns">Columns to be selected (e.g., "Name, Email").</param>
+    /// <param name="parameters">Parameters that the DB requires.</param>
+    /// <typeparam name="T">The expected value (e.g., AccountQuery).</typeparam>
+    /// <returns></returns>
+    public IEnumerable<T> GetSelectedParametersForItems<T>(string tableName, string columns, object parameters)
+    {
+        var properties = parameters.GetType().GetProperties();
+        var whereClause = string.Join(" AND ", properties.Select(prop => $"{prop.Name} = @{prop.Name}"));
+        var sql = $"SELECT {columns} FROM {tableName} WHERE {whereClause}";
+        try
+        {
+            using var conn = _dataSource.OpenConnection();
+            return conn.Query<T>(sql, parameters);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message); // TODO: remove after development
+            throw new Exception("An error occurred while fetching selected items.");
         }
     }
 
@@ -169,7 +194,7 @@ public class RepositoryBase : IRepository
     /// <summary>
     /// Modifies items in the specified table based on the given parameters and new values.
     /// Usage example:
-    /// var conditionColumns = new Dictionary&lt;string, object&gt;
+    /// var conditionColumns = new Dictionary&amp;lt;string, object&amp;gt;
     /// {
     /// { "foreign_key1", 123 },
     /// { "foreign_key2", 456 }
@@ -196,16 +221,9 @@ public class RepositoryBase : IRepository
         try
         {
             using var conn = _dataSource.OpenConnection();
-
-            var parameters = new Dictionary<string, object>();
+            
+            var parameters = conditionColumns.ToDictionary(conditionColumn => conditionColumn.Key, conditionColumn => conditionColumn.Value);
         
-            // Add condition columns to the parameters
-            foreach (var conditionColumn in conditionColumns)
-            {
-                parameters.Add(conditionColumn.Key, conditionColumn.Value);
-            }
-
-            // Add modifications to the parameters
             foreach (var modification in modifications)
             {
                 parameters.Add(modification.Key, modification.Value);

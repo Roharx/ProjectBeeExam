@@ -8,7 +8,7 @@ namespace infrastructure.Repositories;
 public class HoneyRepository : RepositoryBase
 {
     private NpgsqlDataSource _dataSource;
-
+    //TODO: removal in progress
     public HoneyRepository(NpgsqlDataSource dataSource) : base(dataSource)
     {
         _dataSource = dataSource;

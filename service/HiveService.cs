@@ -6,7 +6,7 @@ namespace service;
 public class HiveService
 {
     private readonly HiveRepository _hiveRepository;
-
+    //TODO: refactoring in progress
     public HiveService(HiveRepository hiveRepository)
     {
         _hiveRepository = hiveRepository;

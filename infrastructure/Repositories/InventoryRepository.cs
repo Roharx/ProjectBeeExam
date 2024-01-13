@@ -6,7 +6,7 @@ namespace infrastructure.Repositories;
 public class InventoryRepository : RepositoryBase
 {
     private readonly NpgsqlDataSource _dataSource;
-
+    //TODO: removal in progress
     public InventoryRepository(NpgsqlDataSource dataSource) : base(dataSource)
     {
         _dataSource = dataSource;

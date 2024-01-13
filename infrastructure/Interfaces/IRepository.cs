@@ -13,5 +13,8 @@ public interface IRepository
     int CreateItem<T>(string tableName, object parameters);
         
     bool UpdateEntity<T>(string tableName, T entity, string conditionColumnName);
+    
     bool ModifyItem(string tableName, Dictionary<string, object> conditionColumns, Dictionary<string, object> modifications);
+    
+    IEnumerable<T> GetSelectedParametersForItems<T>(string tableName, string columns, object parameters);
 }

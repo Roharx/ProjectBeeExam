@@ -6,7 +6,7 @@ namespace infrastructure.Repositories;
 public class BeeRepository : RepositoryBase
 {
     private readonly NpgsqlDataSource _dataSource;
-
+    //TODO: removal in progress
     public BeeRepository(NpgsqlDataSource dataSource) : base(dataSource)
     {
         _dataSource = dataSource;
