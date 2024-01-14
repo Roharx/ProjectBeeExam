@@ -1,5 +1,4 @@
-﻿using BeeProject.Config;
-using BeeProject.Filters;
+﻿using BeeProject.Filters;
 using BeeProject.TransferModels;
 using BeeProject.TransferModels.CreateRequests;
 using BeeProject.TransferModels.UpdateRequests;
@@ -10,44 +9,48 @@ using service;
 
 namespace BeeProject.Controllers;
 
-public class FieldController : ControllerBase
+public class FieldController : ControllerBase<FieldService, FieldQuery>
 {
-    private readonly FieldService _fieldService;
-
-    public FieldController(FieldService fieldService)
+    public FieldController(FieldService fieldService) : base(fieldService)
     {
-        _fieldService = fieldService;
     }
-
-    private bool IsUrlAllowed(string url) => Whitelist.AllowedUrls.Any(url.StartsWith);
-
-    private ResponseDto HandleInvalidRequest() => new ResponseDto { MessageToClient = "Invalid request.", ResponseData = null };
-
-    private ResponseDto ValidateAndProceed<T>(Func<T> action, string successMessage) =>
-        !IsUrlAllowed(Request.Headers["Referer"]) ? HandleInvalidRequest() : new ResponseDto { MessageToClient = $"Successfully {successMessage}.", ResponseData = action.Invoke() };
 
     [HttpGet]
     [Authorize]
     [Route("/api/getFields")]
-    public ResponseDto GetAllFields() => new ResponseDto { MessageToClient = "Successfully fetched all fields.", ResponseData = _fieldService.GetAllFields() };
+    public ResponseDto GetAllFields() => new ResponseDto
+    {
+        MessageToClient = "Successfully fetched all fields.", ResponseData = Service.GetAllFields()
+    };
 
     [HttpGet]
     [Authorize]
     [Route("/api/getAccAccountFieldConnections")]
-    public ResponseDto GetAllAccountFieldConnections() => new ResponseDto { MessageToClient = "Successfully fetched all connections.", ResponseData = _fieldService.GetAllAccountFieldConnections() };
+    public ResponseDto GetAllAccountFieldConnections() => new ResponseDto
+    {
+        MessageToClient = "Successfully fetched all connections.",
+        ResponseData = Service.GetAllAccountFieldConnections()
+    };
 
     //TODO: should be in accountController, change when have time or in later update, not that important for now
     [HttpGet]
     [Authorize]
     [Route("/api/getFieldsForAccount/{id:int}")]
-    public ResponseDto GetFieldsForAccount([FromRoute] int id) => new ResponseDto { MessageToClient = "Successfully fetched all fields for account.", ResponseData = _fieldService.GetFieldsForAccount(id) };
+    public ResponseDto GetFieldsForAccount([FromRoute] int id) => new ResponseDto
+    {
+        MessageToClient = "Successfully fetched all fields for account.", ResponseData = Service.GetFieldsForAccount(id)
+    };
 
     [HttpPost]
     [Authorize]
     [ValidateModel]
     [Route("/api/createField")]
     public ResponseDto CreateField([FromBody] CreateFieldRequestDto dto) =>
-        new ResponseDto { MessageToClient = "Successfully created a field.", ResponseData = _fieldService.CreateField(dto.FieldName, dto.FieldLocation) };
+        new ResponseDto
+        {
+            MessageToClient = "Successfully created a field.",
+            ResponseData = Service.CreateField(dto.FieldName, dto.FieldLocation)
+        };
 
     [HttpPut]
     [Authorize]
@@ -57,7 +60,7 @@ public class FieldController : ControllerBase
         ValidateAndProceed<ResponseDto>(() =>
         {
             var field = new FieldQuery { Id = dto.FieldId, Name = dto.FieldName, Location = dto.FieldLocation };
-            _fieldService.UpdateField(field);
+            Service.UpdateField(field);
             return null;
         }, "updated field");
 
@@ -66,19 +69,31 @@ public class FieldController : ControllerBase
     [Authorize]
     [Route("/api/DeleteField/{id:int}")]
     public ResponseDto DeleteField([FromRoute] int id) =>
-        ValidateAndProceed<ResponseDto>(() => { _fieldService.DeleteField(id); return null; }, "deleted field");
+        ValidateAndProceed<ResponseDto>(() =>
+        {
+            Service.DeleteField(id);
+            return null;
+        }, "deleted field");
 
     [HttpPost]
     [Authorize]
     [ValidateModel]
     [Route("/api/ConnectFieldAndAccount")]
     public ResponseDto ConnectFieldAndAccount([FromBody] FieldAndAccountDto dto) =>
-        new ResponseDto { MessageToClient = "Successfully connected field to account.", ResponseData = _fieldService.ConnectFieldAndAccount(dto.AccountId, dto.FieldId) };
+        new ResponseDto
+        {
+            MessageToClient = "Successfully connected field to account.",
+            ResponseData = Service.ConnectFieldAndAccount(dto.AccountId, dto.FieldId)
+        };
 
     [HttpPut]
     [Authorize]
     [ValidateModel]
     [Route("/api/DisconnectFieldAndAccount")]
     public ResponseDto DisconnectFieldAndAccount([FromBody] FieldAndAccountDto dto) =>
-        new ResponseDto { MessageToClient = "Successfully disconnected field from account.", ResponseData = _fieldService.DisconnectFieldAndAccount(dto.AccountId, dto.FieldId) };
+        new ResponseDto
+        {
+            MessageToClient = "Successfully disconnected field from account.",
+            ResponseData = Service.DisconnectFieldAndAccount(dto.AccountId, dto.FieldId)
+        };
 }

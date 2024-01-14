@@ -1,5 +1,4 @@
-﻿using BeeProject.Config;
-using BeeProject.Filters;
+﻿using BeeProject.Filters;
 using BeeProject.TransferModels;
 using BeeProject.TransferModels.CreateRequests;
 using BeeProject.TransferModels.UpdateRequests;
@@ -10,34 +9,30 @@ using service;
 
 namespace BeeProject.Controllers;
 
-public class InventoryController : ControllerBase
+public class InventoryController : ControllerBase<InventoryService,InventoryQuery>
 {
-    private readonly InventoryService _inventoryService;
-
-    public InventoryController(InventoryService inventoryService)
-    {
-        _inventoryService = inventoryService;
-    }
-
-    private bool IsUrlAllowed(string url) => Whitelist.AllowedUrls.Any(url.StartsWith);
-
-    private ResponseDto HandleInvalidRequest() => new ResponseDto { MessageToClient = "Invalid request.", ResponseData = null };
-
-    private ResponseDto ValidateAndProceed<T>(Func<T> action, string successMessage) =>
-        !IsUrlAllowed(Request.Headers["Referer"]) ? HandleInvalidRequest() : new ResponseDto { MessageToClient = $"Successfully {successMessage}.", ResponseData = action.Invoke() };
+    public InventoryController(InventoryService inventoryService) : base(inventoryService)
+    { }
 
     [HttpGet]
     [Authorize]
     [Route("/api/getInventory")]
     public ResponseDto GetAllInventory() =>
-        new ResponseDto { MessageToClient = "Successfully fetched every inventory.", ResponseData = _inventoryService.GetAllInventoryItems() };
+        new ResponseDto { 
+            MessageToClient = "Successfully fetched every inventory.", 
+            ResponseData = Service.GetAllInventoryItems() 
+        };
 
     [HttpPost]
     [Authorize]
     [ValidateModel]
     [Route("/api/createInventory")]
     public ResponseDto CreateInventory([FromBody] CreateInventoryRequestDto dto) =>
-        new ResponseDto { MessageToClient = "Successfully created an inventory.", ResponseData = _inventoryService.CreateInventoryItem(dto.FieldId, dto.Name, dto.Description, dto.Amount) };
+        new ResponseDto
+        {
+            MessageToClient = "Successfully created an inventory.", 
+            ResponseData = Service.CreateInventoryItem(dto.FieldId, dto.Name, dto.Description, dto.Amount)
+        };
 
     [HttpPut]
     [Authorize]
@@ -54,7 +49,7 @@ public class InventoryController : ControllerBase
                 Description = dto.Description,
                 Amount = dto.Amount
             };
-            _inventoryService.UpdateInventoryItem(inventory);
+            Service.UpdateInventoryItem(inventory);
             return null;
         }, "updated inventory");
 
@@ -62,5 +57,8 @@ public class InventoryController : ControllerBase
     [Authorize]
     [Route("/api/DeleteInventory/{id:int}")]
     public ResponseDto DeleteInventory([FromRoute] int id) =>
-        ValidateAndProceed<ResponseDto>(() => { _inventoryService.DeleteInventoryItem(id); return null; }, "deleted inventory");
+        ValidateAndProceed<ResponseDto>(() =>
+        {
+            Service.DeleteInventoryItem(id); return null;
+        }, "deleted inventory");
 }

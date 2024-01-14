@@ -2,7 +2,6 @@
 using BeeProject.TransferModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using service;
 
 namespace BeeProject.Controllers;
 
@@ -10,23 +9,23 @@ namespace BeeProject.Controllers;
 [Authorize]
 [Route("api")]
 public class ControllerBase<TService, TDto> : ControllerBase
-    //where TService : IService<TDto>
     where TDto : class
 {
-    private readonly TService _service;
+    protected readonly TService Service;
 
     public ControllerBase(TService service)
     {
-        _service = service;
+        Service = service;
     }
 
-    private bool IsUrlAllowed(string url)
+    [NonAction]
+    private static bool IsUrlAllowed(string url)
     {
-        // Implement your logic here
         return Whitelist.AllowedUrls.Any(url.StartsWith);
     }
 
-    private ResponseDto HandleInvalidRequest()
+    [NonAction]
+    private static ResponseDto HandleInvalidRequest()
     {
         return new ResponseDto()
         {
@@ -34,10 +33,10 @@ public class ControllerBase<TService, TDto> : ControllerBase
             ResponseData = null
         };
     }
-
-    protected ResponseDto ValidateAndProceed(Func<IEnumerable<TDto>> action, string successMessage)
+    [NonAction]
+    protected ResponseDto ValidateAndProceed<TResult>(Func<TResult> action, string successMessage)
     {
-        if (!IsUrlAllowed(Request.Headers["Referer"]!))
+        if (!ControllerBase<TService, TDto>.IsUrlAllowed(Request.Headers["Referer"]!))
         {
             return HandleInvalidRequest();
         }
@@ -50,10 +49,8 @@ public class ControllerBase<TService, TDto> : ControllerBase
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-            // Log the exception or handle it as appropriate for your application
             return new ResponseDto { MessageToClient = "An error occurred while processing your request." };
         }
     }
 
-    // Add more common methods or properties as needed
 }

@@ -1,4 +1,3 @@
-using BeeProject.Config;
 using BeeProject.Filters;
 using BeeProject.TransferModels;
 using BeeProject.TransferModels.CreateRequests;
@@ -11,48 +10,17 @@ using service;
 
 namespace BeeProject.Controllers
 {
-    public class AccountController : ControllerBase
+    public class AccountController : ControllerBase<AccountService, AccountSafeQuery>
     {
-        private readonly AccountService _accountService;
-
-        public AccountController(AccountService accountService)
-        {
-            _accountService = accountService;
-        }
-        private bool IsUrlAllowed(string url)
-        {
-            return Whitelist.AllowedUrls.Any(url.StartsWith);
-        }
-
-        private ResponseDto HandleInvalidRequest()
-        {
-            return new ResponseDto()
-            {
-                MessageToClient = "Invalid request.",
-                ResponseData = null
-            };
-        }
-
-        private ResponseDto ValidateAndProceed<T>(Func<T> action, string successMessage)
-        {
-            if (!IsUrlAllowed(Request.Headers["Referer"]!))
-            {
-                return HandleInvalidRequest();
-            }
-
-            return new ResponseDto()
-            {
-                MessageToClient = $"Successfully {successMessage}.",
-                ResponseData = action.Invoke()
-            };
-        }
+        public AccountController(AccountService accountService): base(accountService) { }
+        
 
         [HttpGet]
         [Authorize]
         [Route("/api/getAccounts")]
         public ResponseDto GetAllAccounts()
         {
-            return ValidateAndProceed(() => _accountService.GetAllAccounts(), "fetched all accounts");
+            return ValidateAndProceed(() => Service.GetAllAccounts(), "fetched all accounts");
         }
 
         [HttpGet]
@@ -60,7 +28,7 @@ namespace BeeProject.Controllers
         [Route("/api/getAccountsForField/{id:int}")]
         public ResponseDto GetAccountsForField([FromRoute] int id)
         {
-            return ValidateAndProceed(() => _accountService.GetAccountsForField(id), "fetched all accounts for field");
+            return ValidateAndProceed(() => Service.GetAccountsForField(id), "fetched all accounts for field");
         }
 
         [HttpPost]
@@ -69,7 +37,7 @@ namespace BeeProject.Controllers
         [Route("/api/createAccount")]
         public ResponseDto CreateAccount([FromBody] CreateAccountRequestDto dto)
         {
-            return ValidateAndProceed(() => _accountService.CreateAccount(dto.Name, dto.Email, dto.Password, (AccountRank)Enum.ToObject(typeof(AccountRank), dto.Rank)), "created an account");
+            return ValidateAndProceed(() => Service.CreateAccount(dto.Name, dto.Email, dto.Password, (AccountRank)Enum.ToObject(typeof(AccountRank), dto.Rank)), "created an account");
         }
 
         [HttpPut]
@@ -88,7 +56,7 @@ namespace BeeProject.Controllers
                 Password = dto.Password,
                 Rank = dto.Rank
             };
-            _accountService.UpdateAccount(account);
+            Service.UpdateAccount(account);
             return new ResponseDto()
             {
                 MessageToClient = "Successfully updated account.",
@@ -100,7 +68,7 @@ namespace BeeProject.Controllers
         [Route("/api/DeleteAccount/{id:int}")]
         public ResponseDto DeleteAccount([FromRoute] int id)
         {
-            return ValidateAndProceed<ResponseDto>(() => { _accountService.DeleteAccount(id); return null; }, "deleted account");
+            return ValidateAndProceed<ResponseDto>(() => { Service.DeleteAccount(id); return null; }, "deleted account");
         }
 
         [HttpPut]
@@ -109,7 +77,7 @@ namespace BeeProject.Controllers
         [Route("/api/checkPassword")]
         public ResponseDto CheckPassword([FromBody] CredentialCheckRequestDto dto)
         {
-            return ValidateAndProceed(() => _accountService.CheckCredentials(dto.Username, dto.Password), "checked passwords");
+            return ValidateAndProceed(() => Service.CheckCredentials(dto.Username, dto.Password), "checked passwords");
         }
 
         [HttpGet]
@@ -117,14 +85,14 @@ namespace BeeProject.Controllers
         [Route("/api/getManagers")]
         public ResponseDto GetManagers()
         {
-            return ValidateAndProceed(() => _accountService.GetAccountNamesForRank(AccountRank.FieldManager), "retrieved all managers");
+            return ValidateAndProceed(() => Service.GetAccountNamesForRank(AccountRank.FieldManager), "retrieved all managers");
         }
         [HttpGet]
         [Authorize]
         [Route("/api/getKeepers")]
         public ResponseDto GetKeepers()
         {
-            return ValidateAndProceed(() => _accountService.GetAccountNamesForRank(AccountRank.Keeper), "retrieved all managers");
+            return ValidateAndProceed(() => Service.GetAccountNamesForRank(AccountRank.Keeper), "retrieved all managers");
         }
         
         [HttpPut]
@@ -132,7 +100,7 @@ namespace BeeProject.Controllers
         [Route("/api/modifyRank")]
         public ResponseDto ModifyAccountRank([FromBody] AccountRankUpdateDto dto)
         {
-            return ValidateAndProceed(() => _accountService.ModifyRank(dto.AccountId, dto.Rank), "updated Rank");
+            return ValidateAndProceed(() => Service.ModifyRank(dto.AccountId, dto.Rank), "updated Rank");
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using BeeProject.Config;
-using BeeProject.Filters;
+﻿using BeeProject.Filters;
 using BeeProject.TransferModels;
 using BeeProject.TransferModels.CreateRequests;
 using BeeProject.TransferModels.UpdateRequests;
@@ -10,34 +9,31 @@ using service;
 
 namespace BeeProject.Controllers;
 
-public class TaskController : ControllerBase
+public class TaskController : ControllerBase<TaskService, TaskQuery>
 {
-    private readonly TaskService _taskService;
-
-    public TaskController(TaskService taskService)
-    {
-        _taskService = taskService;
-    }
-
-    private bool IsUrlAllowed(string url) => Whitelist.AllowedUrls.Any(url.StartsWith);
-
-    private ResponseDto HandleInvalidRequest() => new ResponseDto { MessageToClient = "Invalid request.", ResponseData = null };
-
-    private ResponseDto ValidateAndProceed<T>(Func<T> action, string successMessage) =>
-        !IsUrlAllowed(Request.Headers["Referer"]) ? HandleInvalidRequest() : new ResponseDto { MessageToClient = $"Successfully {successMessage}.", ResponseData = action.Invoke() };
+    public TaskController(TaskService taskService) : base(taskService)
+    { }
 
     [HttpGet]
     [Authorize]
     [Route("/api/getTask")]
     public ResponseDto GetAllTask() =>
-        new ResponseDto { MessageToClient = "Successfully fetched every task.", ResponseData = _taskService.GetAllTasks() };
+        new ResponseDto
+        {
+            MessageToClient = "Successfully fetched every task.", 
+            ResponseData = Service.GetAllTasks()
+        };
 
     [HttpPost]
     [Authorize]
     [ValidateModel]
     [Route("/api/createTask")]
     public ResponseDto CreateTask([FromBody] CreateTaskRequestDto dto) =>
-        new ResponseDto { MessageToClient = "Successfully created a task.", ResponseData = _taskService.CreateTask(dto.HiveId, dto.Name, dto.Description!, dto.Done) };
+        new ResponseDto
+        {
+            MessageToClient = "Successfully created a task.", 
+            ResponseData = Service.CreateTask(dto.HiveId, dto.Name, dto.Description!, dto.Done)
+        };
 
     [HttpPut]
     [Authorize]
@@ -54,7 +50,7 @@ public class TaskController : ControllerBase
                 Description = dto.Description,
                 Done = dto.Done
             };
-            _taskService.UpdateTask(task);
+            Service.UpdateTask(task);
             return null;
         }, "updated task");
 
@@ -63,5 +59,8 @@ public class TaskController : ControllerBase
     [Authorize]
     [Route("/api/DeleteTask/{id:int}")]
     public ResponseDto DeleteTask([FromRoute] int id) =>
-        ValidateAndProceed<ResponseDto>(() => { _taskService.DeleteTask(id); return null; }, "deleted task");
+        ValidateAndProceed<ResponseDto>(() =>
+        {
+            Service.DeleteTask(id); return null;
+        }, "deleted task");
 }
