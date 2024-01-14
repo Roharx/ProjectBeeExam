@@ -3,17 +3,14 @@ using infrastructure.QueryModels;
 
 namespace service;
 
-public class InventoryService
+public class InventoryService : ServiceBase
 {
-    private readonly IRepository _repository;
-    public InventoryService(IRepository repository)
-    {
-        _repository = repository;
-    }
+    public InventoryService(IRepository repository) : base (repository)
+    { }
 
     public IEnumerable<InventoryQuery> GetAllInventoryItems()
     {
-        return _repository.GetAllItems<InventoryQuery>("inventory");
+        return GetAllItems<InventoryQuery>("inventory");
     }
 
     public int CreateInventoryItem(int fieldId, string itemName, string itemDescription, int amount)
@@ -25,24 +22,21 @@ public class InventoryService
             description = itemDescription,
             amount = amount
         };
-        var result = _repository.CreateItem<int>("inventory", parameters);
-        return result != -1 ? result : throw new Exception("Could not create item");
+        return CreateItem<int>("inventory", parameters);
     }
 
     public void UpdateInventoryItem(InventoryQuery item)
     {
-        if (!_repository.UpdateEntity("inventory", item, "id"))
-            throw new Exception("Could not update item.");
+        UpdateItem("inventory", item);
     }
 
     public void DeleteInventoryItem(int itemId)
     {
-        if (!_repository.DeleteItem("inventory", itemId))
-            throw new Exception("Could not remove item.");
+        DeleteItem("inventory", itemId);
     }
 
     public IEnumerable<InventoryQuery> GetItemsForField(int fieldId)
     {
-        return _repository.GetItemsByParameters<InventoryQuery>("inventory", new { field_id = fieldId });
+        return GetItemsByParameters<InventoryQuery>("inventory", new { field_id = fieldId });
     }
 }

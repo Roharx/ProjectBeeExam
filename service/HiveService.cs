@@ -3,18 +3,14 @@ using infrastructure.QueryModels;
 
 namespace service;
 
-public class HiveService
+public class HiveService : ServiceBase
 {
-    private readonly IRepository _repository;
-
-    public HiveService(IRepository repository)
-    {
-        _repository = repository;
-    }
+    public HiveService(IRepository repository) : base(repository)
+    { }
 
     public IEnumerable<HiveQuery> GetAllHives()
     {
-        return _repository.GetAllItems<HiveQuery>("hive");
+        return GetAllItems<HiveQuery>("hive");
     }
 
     public int CreateHive(int fieldId, string hiveName, string hiveLocation, string placementDate, string lastCheck,
@@ -32,24 +28,22 @@ public class HiveService
             comment = hiveComment,
             bee_type = beeType
         };
-        var result = _repository.CreateItem<int>("hive", createItemParameters);
-        return result != -1 ? result : throw new Exception("Could not create hive.");
+        
+        return CreateItem<int>("hive", createItemParameters);;
     }
 
     public void UpdateHive(HiveQuery hive)
     {
-        if (!_repository.UpdateEntity("hive", hive, "id"))
-            throw new Exception("Could not update hive.");
+        UpdateItem("hive", hive);
     }
 
     public void DeleteHive(int hiveId)
     {
-        if (!_repository.DeleteItem("hive", hiveId))
-            throw new Exception("Could not remove hive.");
+        DeleteItem("hive", hiveId);
     }
 
     public IEnumerable<HiveQuery> GetHivesForField(int fieldId)
     {
-        return _repository.GetItemsByParameters<HiveQuery>("hive", new { field_id = fieldId });
+        return GetItemsByParameters<HiveQuery>("hive", new { field_id = fieldId });
     }
 }

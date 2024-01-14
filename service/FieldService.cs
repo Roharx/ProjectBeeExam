@@ -3,24 +3,20 @@ using infrastructure.QueryModels;
 
 namespace service;
 
-public class FieldService
+public class FieldService : ServiceBase
 {
-    private readonly IRepository _repository;
-
-    public FieldService(IRepository repository)
-    {
-        _repository = repository;
-    }
+    public FieldService(IRepository repository) : base(repository)
+    { }
 
     public IEnumerable<FieldQuery> GetAllFields()
     {
-        return _repository.GetAllItems<FieldQuery>("field");
+        return GetAllItems<FieldQuery>("field");
     }
 
     //TODO: fix later, no usages needed yet
     public IEnumerable<Account_FieldQuery> GetAllAccountFieldConnections()
     {
-        return _repository.GetAllItems<Account_FieldQuery>("account_field");
+        return GetAllItems<Account_FieldQuery>("account_field");
     }
 
     public int CreateField(string fieldName, string fieldLocation)
@@ -30,34 +26,31 @@ public class FieldService
             name = fieldName,
             location = fieldLocation
         };
-        var result = _repository.CreateItem<int>("field", createItemParameters);
-        return result != -1 ? result : throw new Exception("Could not create field.");
+        return CreateItem<int>("field", createItemParameters);
     }
 
     public void UpdateField(FieldQuery field)
     {
-        if (!_repository.UpdateEntity("field", field, "id"))
-            throw new Exception("Could not update field.");
+        UpdateItem("field", field);
     }
 
     public void DeleteField(int fieldId)
     {
-        if (!_repository.DeleteItem("field", fieldId))
-            throw new Exception("Could not remove field.");
+        DeleteItem("field", fieldId);
     }
 
     //TODO: placeholder, optimize later
     public IEnumerable<FieldQuery> GetFieldsForAccount(int accountId)
     {
-        var fieldIds = _repository.GetItemsByParameters<int>("account_field", new { account_id = accountId }).ToArray();
+        var fieldIds = GetItemsByParameters<int>("account_field", new { account_id = accountId }).ToArray();
 
         return fieldIds.Length != 0
-            ? fieldIds.Select(id => _repository.GetSingleItemByParameters<FieldQuery>("field", new { id })!).ToList()
+            ? fieldIds.Select(id => GetSingleItemByParameters<FieldQuery>("field", new { id })!).ToList()
             : Enumerable.Empty<FieldQuery>();
     }
     //TODO: placeholder, optimize later
 
-
+    //TODO:
     public bool ConnectFieldAndAccount(int accountId, int fieldId)
     {
         var createItemParameters = new
@@ -65,9 +58,9 @@ public class FieldService
             account_id = accountId,
             field_id = fieldId
         };
-        return _repository.CreateItemWithoutReturn("account_field", createItemParameters);
+        return Repository.CreateItemWithoutReturn("account_field", createItemParameters);
     }
-
+    //TODO:
     public bool DisconnectFieldAndAccount(int accountId, int fieldId)
     {
         var conditionColumns = new Dictionary<string, object>()
@@ -76,6 +69,6 @@ public class FieldService
             {"field_id", fieldId}
         };
         
-        return _repository.DeleteItemWithMultipleParams("account_field", conditionColumns);
+        return Repository.DeleteItemWithMultipleParams("account_field", conditionColumns);
     }
 }

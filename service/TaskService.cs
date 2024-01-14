@@ -3,17 +3,14 @@ using infrastructure.QueryModels;
 
 namespace service;
 
-public class TaskService
+public class TaskService : ServiceBase
 {
-    private readonly IRepository _repository;
-    public TaskService(IRepository repository)
-    {
-        _repository = repository;
-    }
+    public TaskService(IRepository repository) : base (repository)
+    { }
 
     public IEnumerable<TaskQuery> GetAllTasks()
     {
-        return _repository.GetAllItems<TaskQuery>("task");
+        return GetAllItems<TaskQuery>("task");
     }
 
     public int CreateTask(int hiveId, string taskName, string taskDescription, bool taskDone)
@@ -25,24 +22,21 @@ public class TaskService
             description = taskDescription,
             done = taskDone
         };
-        var result = _repository.CreateItem<int>("task", parameters);
-        return result != -1 ? result : throw new Exception("Could not create task.");
+        return CreateItem<int>("task", parameters);
     }
 
     public void UpdateTask(TaskQuery task)
     {
-        if (!_repository.UpdateEntity("task", task, "id"))
-            throw new Exception("Could not update task.");
+        UpdateItem("task", task);
     }
 
     public void DeleteTask(int taskId)
     {
-        if (!_repository.DeleteItem("task", taskId))
-            throw new Exception("Could not remove task.");
+        DeleteItem("task", taskId);
     }
 
     public IEnumerable<TaskQuery> GetTasksForHive(int hiveId)
     {
-        return _repository.GetItemsByParameters<TaskQuery>("task", new { hive_id = hiveId });
+        return GetItemsByParameters<TaskQuery>("task", new { hive_id = hiveId });
     }
 }

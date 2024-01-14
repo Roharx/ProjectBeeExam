@@ -4,17 +4,14 @@ using infrastructure.QueryModels;
 
 namespace service;
 
-public class AilmentService
+public class AilmentService : ServiceBase
 {
-    private readonly IRepository _repository;
-    public AilmentService(IRepository repository)
-    {
-        _repository = repository;
-    }
+    public AilmentService(IRepository repository) : base(repository)
+    { }
 
     public IEnumerable<AilmentQuery> GetAllAilments()
     {
-        return _repository.GetAllItems<AilmentQuery>("ailment");
+        return GetAllItems<AilmentQuery>("ailment");
     }
 
     public int CreateAilment(int hiveId, string ailmentName, AilmentSeverity ailmentSeverity, bool ailmentSolved,
@@ -28,35 +25,30 @@ public class AilmentService
             solved = ailmentSolved,
             comment = ailmentComment
         };
-        var result =
-            _repository.CreateItem<int>("ailment", createItemParameters);
-        return result != -1 ? result : throw new Exception("Couldn't create ailment.");
+        
+        return CreateItem<int>("ailment", createItemParameters);
     }
 
     public void UpdateAilment(AilmentQuery ailment)
     {
-        var result = _repository.UpdateEntity("ailment", ailment, "id");
-        if (!result)
-            throw new Exception("Couldn't update ailment.");
+        UpdateItem("ailment", ailment);
     }
 
     public void DeleteAilment(int ailmentId)
     {
-        var result = _repository.DeleteItem("ailment", ailmentId);
-        if (!result)
-            throw new Exception("Couldn't remove ailment.");
+        DeleteItem("ailment", ailmentId);
     }
 
     public IEnumerable<AilmentQuery> GetAilmentsForHive(int hiveId)
     {
-        return _repository.GetItemsByParameters<AilmentQuery>("ailment", new {hive_id = hiveId});
+        return GetItemsByParameters<AilmentQuery>("ailment", new {hive_id = hiveId});
         
     }
     
-    //TODO: handle field-wide ailments on a different layer, it requires hive->field_id
+    //TODO: field-wide ailments
 
     public IEnumerable<AilmentQuery> GetGlobalAilments()
     {
-        return _repository.GetItemsByParameters<AilmentQuery>("ailment", new {severity = (int)AilmentSeverity.SevereInternal});
+        return GetItemsByParameters<AilmentQuery>("ailment", new {severity = (int)AilmentSeverity.SevereInternal});
     }
 }

@@ -5,31 +5,29 @@ using infrastructure.QueryModels;
 
 namespace service;
 
-public class AccountService
+public class AccountService : ServiceBase
 {
-    private readonly IRepository _repository;
     private readonly ITokenService _tokenService;
 
-    public AccountService(IRepository repository, ITokenService tokenService)
+    public AccountService(IRepository repository, ITokenService tokenService) : base(repository)
     {
-        _repository = repository;
         _tokenService = tokenService;
     }
 
     public IEnumerable<AccountSafeQuery> GetAllAccounts()
     {
-        return _repository.GetAllItems<AccountSafeQuery>("account");
+        return GetAllItems<AccountSafeQuery>("account");
     }
 
     public IEnumerable<AccountSafeQuery> GetAccountNamesForRank(AccountRank rank)
     {
-        return _repository.GetItemsByParameters<AccountSafeQuery>("account", new { rank = (int)rank });
+        return Repository.GetItemsByParameters<AccountSafeQuery>("account", new { rank = (int)rank });
     }
 
     //TODO: global exception handler
     public int CreateAccount(string accountName, string accountEmail, string accountPassword, AccountRank accountRank)
     {
-        var salt = Crypter.Blowfish.GenerateSalt();
+        var salt = Crypter.Blowfish.GenerateSalt(); //implement salting later
         var hashed = Crypter.Blowfish.Crypt(accountPassword, salt);
 
         var createItemParameters = new
@@ -39,31 +37,27 @@ public class AccountService
             password = hashed,
             rank = (int)accountRank
         };
-
-        var result = _repository.CreateItem<int>("account", createItemParameters);
-        return result != -1 ? result : throw new Exception("Username is already taken.");
+        
+        return CreateItem<int>("account", createItemParameters);
     }
 
     public void UpdateAccount(AccountQuery account)
     {
         var hashed = Crypter.Blowfish.Crypt(account.Password);
         account.Password = hashed;
-        var result = _repository.UpdateEntity("account", account, "id");
-        if (!result)
-            throw new Exception("Could not update account.");
+        
+        UpdateItem("account", account);
     }
 
     public void DeleteAccount(int accountId)
     {
-        var result = _repository.DeleteItem("account", accountId);
-        if (!result)
-            throw new Exception("Could not remove account.");
+        DeleteItem("account", accountId);
     }
 
     public string CheckCredentials(string userName, string password)
     {
         //TODO: check later
-        var account = _repository.GetSingleItemByParameters<AccountQuery>("account", new { name = userName });
+        var account = Repository.GetSingleItemByParameters<AccountQuery>("account", new { name = userName });
         if (account != null && Crypter.CheckPassword(password, account.Password))
         {
             return _tokenService.GenerateToken(account);
@@ -74,11 +68,11 @@ public class AccountService
 
     public IEnumerable<AccountSafeQuery> GetAccountsForField(int fieldId)
     {
-        var accountIds = _repository.GetSelectedParametersForItems<int>
+        var accountIds = Repository.GetSelectedParametersForItems<int>
             ("account_field", "account_id", new {field_id = fieldId}).ToArray();
 
         return accountIds.Length != 0
-            ? accountIds.Select(id => _repository.GetSingleItemByParameters<AccountSafeQuery>("account", new {id})).ToList()!
+            ? accountIds.Select(id => Repository.GetSingleItemByParameters<AccountSafeQuery>("account", new {id})).ToList()!
             : Enumerable.Empty<AccountSafeQuery>();
     }
 
@@ -93,6 +87,6 @@ public class AccountService
         {
             { "rank", rank }
         };
-        return _repository.ModifyItem("account", conditionColumn, modifications);
+        return Repository.ModifyItem("account", conditionColumn, modifications);
     }
 }

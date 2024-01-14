@@ -3,17 +3,14 @@ using infrastructure.QueryModels;
 
 namespace service;
 
-public class BeeService
+public class BeeService : ServiceBase
 {
-    private readonly IRepository _repository;
-    public BeeService(IRepository repository)
-    {
-        _repository = repository;
-    }
+    public BeeService(IRepository repository) : base(repository)
+    { }
 
     public IEnumerable<BeeQuery> GetAllBees()
     {
-        return _repository.GetAllItems<BeeQuery>("bee");
+        return GetAllItems<BeeQuery>("bee");
     }
 
     public int CreateBee(string beeName, string beeDescription, string beeComment)
@@ -25,23 +22,21 @@ public class BeeService
             comment = beeComment
         };
         
-        return _repository.CreateItem<int>("bee", createItemParameters);
+        return CreateItem<int>("bee", createItemParameters);
     }
 
     public void UpdateBee(BeeQuery bee)
     {
-        if (!_repository.UpdateEntity("bee", bee, "id"))
-            throw new Exception("Could not update bee.");
+        UpdateItem("bee", bee);
     }
     public void DeleteBee(int beeId)
     {
-        if (!_repository.DeleteItem("bee", beeId))
-            throw new Exception("Could not remove bee.");
+        DeleteItem("bee", beeId);
     }
 
     public BeeQuery GetBeeForHive(int hiveId)
     {
-        return _repository.GetSingleItemByParameters<BeeQuery>("bee", new { hive_id = hiveId }) 
-               ?? throw new Exception("Could not find bee for the hive.");
+        return GetSingleItemByParameters<BeeQuery>("bee", new { hive_id = hiveId })!;
+
     }
 }

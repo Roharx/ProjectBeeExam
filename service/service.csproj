@@ -12,9 +12,6 @@
   </ItemGroup>
 
 
-  <ItemGroup>
-    <Folder Include="interfaces\" />
-  </ItemGroup>
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
