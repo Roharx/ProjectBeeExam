@@ -28,7 +28,7 @@ if (builder.Environment.IsProduction())
 builder.Services.AddSingleton<ITokenService, TokenService>();
 
 // Repositories
-builder.Services.AddSingleton<IRepository, RepositoryBase>();
+builder.Services.AddSingleton<IRepository, RepositoryHandler>();
 // Services
 builder.Services.AddSingleton<AccountService>();
 builder.Services.AddSingleton<AilmentService>();

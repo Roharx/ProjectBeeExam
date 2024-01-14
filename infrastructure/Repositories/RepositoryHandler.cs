@@ -4,11 +4,11 @@ using Npgsql;
 
 namespace infrastructure.Repositories;
 
-public class RepositoryBase : IRepository
+public class RepositoryHandler : IRepository
 {
     private readonly NpgsqlDataSource _dataSource;
 
-    public RepositoryBase(NpgsqlDataSource dataSource)
+    public RepositoryHandler(NpgsqlDataSource dataSource)
     {
         _dataSource = dataSource;
     }
