@@ -9,7 +9,7 @@ using service;
 
 namespace BeeProject.Controllers;
 
-public class HoneyController : ControllerBase<HoneyService, HoneyQuery>
+public class HoneyController : ControllerBase<HoneyService>
 {
     public HoneyController(HoneyService honeyService) : base(honeyService)
     { }

@@ -9,7 +9,7 @@ using service;
 
 namespace BeeProject.Controllers;
 
-public class InventoryController : ControllerBase<InventoryService,InventoryQuery>
+public class InventoryController : ControllerBase<InventoryService>
 {
     public InventoryController(InventoryService inventoryService) : base(inventoryService)
     { }

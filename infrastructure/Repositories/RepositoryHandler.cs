@@ -273,7 +273,9 @@ public class RepositoryHandler : IRepository
         {
             using var conn = _dataSource.OpenConnection();
             
-            var parameters = conditionColumns.ToDictionary(conditionColumn => conditionColumn.Key, conditionColumn => conditionColumn.Value);
+            var parameters = conditionColumns.ToDictionary(
+                conditionColumn => conditionColumn.Key, 
+                conditionColumn => conditionColumn.Value);
         
             foreach (var modification in modifications)
             {

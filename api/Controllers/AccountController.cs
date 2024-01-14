@@ -10,7 +10,7 @@ using service;
 
 namespace BeeProject.Controllers
 {
-    public class AccountController : ControllerBase<AccountService, AccountSafeQuery>
+    public class AccountController : ControllerBase<AccountService>
     {
         public AccountController(AccountService accountService): base(accountService) { }
         

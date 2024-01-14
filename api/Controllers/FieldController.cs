@@ -9,7 +9,7 @@ using service;
 
 namespace BeeProject.Controllers;
 
-public class FieldController : ControllerBase<FieldService, FieldQuery>
+public class FieldController : ControllerBase<FieldService>
 {
     public FieldController(FieldService fieldService) : base(fieldService)
     {

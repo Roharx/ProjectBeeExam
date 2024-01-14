@@ -10,7 +10,7 @@ using service;
 
 namespace BeeProject.Controllers;
 
-public class BeeController : ControllerBase<BeeService, BeeQuery>
+public class BeeController : ControllerBase<BeeService>
 {
     public BeeController(BeeService beeService) : base(beeService)
     { }

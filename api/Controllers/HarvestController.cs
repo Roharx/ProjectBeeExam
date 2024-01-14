@@ -9,7 +9,7 @@ using service;
 
 namespace BeeProject.Controllers;
 
-public class HarvestController : ControllerBase<HarvestService, HarvestQuery>
+public class HarvestController : ControllerBase<HarvestService>
 {
     public HarvestController(HarvestService harvestService) : base(harvestService)
     { }

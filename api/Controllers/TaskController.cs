@@ -9,7 +9,7 @@ using service;
 
 namespace BeeProject.Controllers;
 
-public class TaskController : ControllerBase<TaskService, TaskQuery>
+public class TaskController : ControllerBase<TaskService>
 {
     public TaskController(TaskService taskService) : base(taskService)
     { }

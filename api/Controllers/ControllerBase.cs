@@ -8,8 +8,8 @@ namespace BeeProject.Controllers;
 [ApiController]
 [Authorize]
 [Route("api")]
-public class ControllerBase<TService, TDto> : ControllerBase
-    where TDto : class
+public class ControllerBase<TService> : ControllerBase
+    
 {
     protected readonly TService Service;
 
@@ -36,7 +36,7 @@ public class ControllerBase<TService, TDto> : ControllerBase
     [NonAction]
     protected ResponseDto ValidateAndProceed<TResult>(Func<TResult> action, string successMessage)
     {
-        if (!ControllerBase<TService, TDto>.IsUrlAllowed(Request.Headers["Referer"]!))
+        if (!IsUrlAllowed(Request.Headers["Referer"]!))
         {
             return HandleInvalidRequest();
         }

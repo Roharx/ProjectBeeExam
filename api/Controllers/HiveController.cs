@@ -9,7 +9,7 @@ using service;
 
 namespace BeeProject.Controllers;
 
-public class HiveController : ControllerBase<HiveService, HiveQuery>
+public class HiveController : ControllerBase<HiveService>
 {
     public HiveController(HiveService hiveService): base(hiveService)
     { }

@@ -10,7 +10,7 @@ using service;
 
 namespace BeeProject.Controllers;
 
-public class AilmentController : ControllerBase<AilmentService, AilmentQuery>
+public class AilmentController : ControllerBase<AilmentService>
 {
 
     public AilmentController(AilmentService ailmentService) : base(ailmentService)
