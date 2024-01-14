@@ -54,7 +54,6 @@ public class TaskController : ControllerBase<TaskService>
             return null;
         }, "updated task");
 
-    // TODO: change to safe later
     [HttpDelete]
     [Authorize]
     [Route("/api/DeleteTask/{id:int}")]

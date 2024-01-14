@@ -45,7 +45,6 @@ public class BeeController : ControllerBase<BeeService>
             return null;
         }, "updated bee");
 
-    //TODO: change to safe later
     [HttpDelete]
     [Authorize]
     [Route("/api/DeleteBee/{id:int}")]

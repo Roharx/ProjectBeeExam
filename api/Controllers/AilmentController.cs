@@ -54,7 +54,6 @@ public class AilmentController : ControllerBase<AilmentService>
         return new ResponseDto { MessageToClient = "Successfully updated ailment." };
     }
 
-    //TODO: change to safe later
     [HttpDelete]
     [Authorize]
     [Route("/api/DeleteAilment/{id:int}")]

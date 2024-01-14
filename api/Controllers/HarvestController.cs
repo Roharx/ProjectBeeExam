@@ -53,7 +53,6 @@ public class HarvestController : ControllerBase<HarvestService>
             return null;
         }, "updated harvest");
 
-    //TODO: change to safe later
     [HttpDelete]
     [Authorize]
     [Route("/api/DeleteHarvest/{id:int}")]

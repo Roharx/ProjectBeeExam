@@ -64,7 +64,6 @@ public class FieldController : ControllerBase<FieldService>
             return null;
         }, "updated field");
 
-    //TODO: change to safe later
     [HttpDelete]
     [Authorize]
     [Route("/api/DeleteField/{id:int}")]
