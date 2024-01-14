@@ -42,7 +42,7 @@ public class AccountService
             rank = (int)accountRank
         };
 
-        var result = _repository.CreateItem<AccountQuery>("account", createItemParameters);
+        var result = _repository.CreateItem<int>("account", createItemParameters);
         return result != -1 ? result : throw new Exception("Username is already taken.");
     }
 
