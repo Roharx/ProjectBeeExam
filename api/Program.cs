@@ -29,14 +29,6 @@ builder.Services.AddSingleton<ITokenService, TokenService>();
 
 // Repositories
 builder.Services.AddSingleton<IRepository, RepositoryBase>();
-builder.Services.AddSingleton<AilmentRepository>();
-builder.Services.AddSingleton<BeeRepository>();
-builder.Services.AddSingleton<FieldRepository>();
-builder.Services.AddSingleton<HarvestRepository>();
-builder.Services.AddSingleton<HiveRepository>();
-builder.Services.AddSingleton<HoneyRepository>();
-builder.Services.AddSingleton<InventoryRepository>();
-builder.Services.AddSingleton<TaskRepository>();
 // Services
 builder.Services.AddSingleton<AccountService>();
 builder.Services.AddSingleton<AilmentService>();

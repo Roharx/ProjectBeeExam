@@ -1,44 +1,51 @@
-﻿using infrastructure.QueryModels;
-using infrastructure.Repositories;
+﻿using infrastructure.Interfaces;
+using infrastructure.QueryModels;
 
 namespace service;
 
 public class HoneyService
 {
-    private readonly HoneyRepository _honeyRepository;
-    //TODO: refactoring in progress
-    public HoneyService(HoneyRepository honeyRepository)
+    private readonly IRepository _repository;
+    public HoneyService(IRepository repository)
     {
-        _honeyRepository = honeyRepository;
+        _repository = repository;
     }
 
     public IEnumerable<HoneyQuery> GetAllHoney()
     {
-        return _honeyRepository.GetAllHoney();
+        return _repository.GetAllItems<HoneyQuery>("honey");
     }
 
     public int CreateHoney(int harvestId, string honeyName, bool honeyLiquidity, string honeyFlowers,
         float honeyMoisture)
     {
-        var result = _honeyRepository.CreateHoney(harvestId, honeyName, honeyLiquidity, honeyFlowers, honeyMoisture);
+        var parameters = new
+        {
+            harvest_id = harvestId,
+            name = honeyName,
+            liquid = honeyLiquidity,
+            flowers = honeyFlowers,
+            moisture = honeyMoisture
+        };
+        var result = _repository.CreateItem<int>("honey", parameters);
         return result != -1 ? result : throw new Exception("Could not create honey.");
     }
 
     public void UpdateHoney(HoneyQuery honey)
     {
-        if (!_honeyRepository.UpdateHoney(honey))
+        if (!_repository.UpdateEntity("honey", honey, "id"))
             throw new Exception("Could not update honey.");
     }
 
     public void DeleteHoney(int honeyId)
     {
-        if (!_honeyRepository.DeleteHoney(honeyId))
+        if (!_repository.DeleteItem("honey", honeyId))
             throw new Exception("Could not remove honey.");
     }
 
     public HoneyQuery GetHoneyForHarvest(int harvestId)
     {
-        return _honeyRepository.GetHoneyForHarvest(harvestId) ??
+        return _repository.GetSingleItemByParameters<HoneyQuery>("honey", new { harvest_id = harvestId }) ??
                throw new Exception("Could not find honey for harvest.");
     }
 }

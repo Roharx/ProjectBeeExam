@@ -1,43 +1,50 @@
-﻿using System.Collections;
+﻿using infrastructure.Interfaces;
 using infrastructure.QueryModels;
-using infrastructure.Repositories;
 
 namespace service;
 
 public class HarvestService
 {
-    private readonly HarvestRepository _harvestRepository;
-    //TODO: refactoring in progress
-    public HarvestService(HarvestRepository harvestRepository)
+    private readonly IRepository _repository;
+
+    public HarvestService(IRepository repository)
     {
-        _harvestRepository = harvestRepository;
+        _repository = repository;
     }
 
     public IEnumerable<HarvestQuery> GetAllHarvests()
     {
-        return _harvestRepository.GetAllHarvests();
+        return _repository.GetAllItems<HarvestQuery>("harvest");
     }
 
     public int CreateHarvest(int hiveId, string harvestTime, int honeyAmount, int beeswaxAmount, string harvestComment)
     {
-        var result = _harvestRepository.CreateHarvest(hiveId, harvestTime, honeyAmount, beeswaxAmount, harvestComment);
+        var createItemParameters = new
+        {
+            hive_id = hiveId,
+            time = harvestTime,
+            honey_amount = honeyAmount,
+            beeswax_amount = beeswaxAmount,
+            comment = harvestComment
+        };
+        var result = _repository.CreateItem<int>("harvest", createItemParameters);
         return result != -1 ? result : throw new Exception("Could not create harvest.");
     }
 
     public void UpdateHarvest(HarvestQuery harvest)
     {
-        if (!_harvestRepository.UpdateHarvest(harvest))
+        if (!_repository.UpdateEntity("harvest", harvest, "id"))
             throw new Exception("Could not update harvest.");
     }
 
     public void DeleteHarvest(int harvestId)
     {
-        if (!_harvestRepository.DeleteHarvest(harvestId))
+        if (!_repository.DeleteItem("harvest", harvestId))
             throw new Exception("Could not remove harvest.");
     }
 
     public IEnumerable<HarvestQuery> GetHarvestForHive(int hiveId)
     {
-        return _harvestRepository.GetHarvestsForHive(hiveId);
+        return _repository.GetItemsByParameters<HarvestQuery>("harvest", new { hive_id = hiveId });
     }
 }

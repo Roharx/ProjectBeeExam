@@ -132,6 +132,29 @@ public class RepositoryBase : IRepository
             return false;
         }
     }
+    /// <summary>
+    /// Removes an item from the database. It is a generic code which allows multiple different parameter types.
+    /// </summary>
+    /// <param name="tableName">Name of the table.</param>
+    /// <param name="itemId"></param>
+    /// <returns></returns>
+    public bool DeleteItemWithMultipleParams(string tableName, Dictionary<string, object> conditionColumns)
+    {
+        var conditionClauses = string.Join(" AND ", conditionColumns.Select(cond => $"{cond.Key} = @{cond.Key}"));
+        var sql = $"DELETE FROM {tableName} WHERE {conditionClauses}";
+
+        try
+        {
+            using var conn = _dataSource.OpenConnection();
+            conn.Execute(sql, conditionColumns);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);  // TODO: remove after development
+            return false;
+        }
+    }
 
     /// <summary>
     /// Creates a row inside a table in the database. It is a generic code which allows different parameter types and amounts.
@@ -157,6 +180,34 @@ public class RepositoryBase : IRepository
         {
             Console.WriteLine(ex.Message);//TODO: remove after development
             return -1;
+        }
+    }
+    
+    /// <summary>
+    /// Creates a row inside a table in the database. It is a generic code which allows different parameter types and amounts.
+    /// </summary>
+    /// <param name="tableName">The name of the table in the DB</param>
+    /// <param name="parameters">Parameters that the DB requires</param>
+    /// <typeparam name="T">The expected value (eg.: AccountQuery)</typeparam>
+    /// <returns></returns>
+    public bool CreateItemWithoutReturn(string tableName, object parameters)
+    {
+        var properties = parameters.GetType().GetProperties();
+        var columns = string.Join(", ", properties.Select(prop => prop.Name));
+        var values = string.Join(", ", properties.Select(prop => $"@{prop.Name}"));
+
+        var sql = $"INSERT INTO {tableName} ({columns}) VALUES ({values})";
+
+        try
+        {
+            using var conn = _dataSource.OpenConnection();
+            conn.Execute(sql, parameters);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);//TODO: remove after development
+            return false;
         }
     }
 

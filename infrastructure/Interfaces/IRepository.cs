@@ -17,4 +17,7 @@ public interface IRepository
     bool ModifyItem(string tableName, Dictionary<string, object> conditionColumns, Dictionary<string, object> modifications);
     
     IEnumerable<T> GetSelectedParametersForItems<T>(string tableName, string columns, object parameters);
+
+    bool DeleteItemWithMultipleParams(string tableName, Dictionary<string, object> conditionColumns);
+    bool CreateItemWithoutReturn(string tableName, object parameters);
 }

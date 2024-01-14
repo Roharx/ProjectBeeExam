@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using infrastructure.Interfaces;
+﻿using infrastructure.Interfaces;
 using infrastructure.QueryModels;
-using infrastructure.Repositories;
 
 namespace service;
 

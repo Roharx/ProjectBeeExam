@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using infrastructure.DataModels;
-using infrastructure.DataModels.Enums;
+﻿using infrastructure.DataModels.Enums;
 using infrastructure.Interfaces;
 using infrastructure.QueryModels;
-using infrastructure.Repositories;
 
 namespace service;
 
