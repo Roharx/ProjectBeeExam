@@ -13,4 +13,3 @@ public class HiveQuery
     public int Bee_Type { get; set; }
     public string? Comment { get; set; }
 }
-//TODO: comments are for dev only, remove at release

@@ -48,7 +48,6 @@ public class FieldService : ServiceBase
             ? fieldIds.Select(id => GetSingleItemByParameters<FieldQuery>("field", new { id })!).ToList()
             : Enumerable.Empty<FieldQuery>();
     }
-    //TODO: placeholder, optimize later
 
     //TODO:
     public bool ConnectFieldAndAccount(int accountId, int fieldId)

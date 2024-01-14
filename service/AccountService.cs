@@ -24,7 +24,6 @@ public class AccountService : ServiceBase
         return Repository.GetItemsByParameters<AccountSafeQuery>("account", new { rank = (int)rank });
     }
 
-    //TODO: global exception handler
     public int CreateAccount(string accountName, string accountEmail, string accountPassword, AccountRank accountRank)
     {
         var salt = Crypter.Blowfish.GenerateSalt(); //implement salting later

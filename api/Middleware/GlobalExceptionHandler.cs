@@ -54,8 +54,7 @@ public class GlobalExceptionHandler
         {
             http.Response.StatusCode = StatusCodes.Status403Forbidden;
         }
-        else if (exception is NotSupportedException ||
-                 exception is NotImplementedException)
+        else if (exception is NotSupportedException or NotImplementedException)
         {
             http.Response.StatusCode = StatusCodes.Status501NotImplemented;
             return http.Response.WriteAsJsonAsync(new ResponseDto()
