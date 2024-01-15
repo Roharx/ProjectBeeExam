@@ -37,7 +37,12 @@ namespace BeeProject.Controllers
         [Route("/api/createAccount")]
         public ResponseDto CreateAccount([FromBody] CreateAccountRequestDto dto)
         {
-            return ValidateAndProceed(() => Service.CreateAccount(dto.Name, dto.Email, dto.Password, (AccountRank)Enum.ToObject(typeof(AccountRank), dto.Rank)), "created an account");
+            return ValidateAndProceed(() => Service.CreateAccount(
+                dto.Name, 
+                dto.Email, 
+                dto.Password, 
+                (AccountRank)Enum.ToObject(typeof(AccountRank), dto.Rank)
+                ), "created an account");
         }
 
         [HttpPut]

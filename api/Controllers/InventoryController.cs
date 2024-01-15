@@ -31,7 +31,11 @@ public class InventoryController : ControllerBase<InventoryService>
         new ResponseDto
         {
             MessageToClient = "Successfully created an inventory.", 
-            ResponseData = Service.CreateInventoryItem(dto.FieldId, dto.Name, dto.Description, dto.Amount)
+            ResponseData = Service.CreateInventoryItem(
+                dto.FieldId, 
+                dto.Name, 
+                dto.Description, 
+                dto.Amount)
         };
 
     [HttpPut]

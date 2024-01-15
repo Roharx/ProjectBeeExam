@@ -33,7 +33,16 @@ public class AilmentController : ControllerBase<AilmentService>
     [ValidateModel]
     [Route("/api/createAilment")]
     public ResponseDto CreateAilment([FromBody] CreateAilmentRequestDto dto) =>
-        new ResponseDto { MessageToClient = "Successfully created an ailment.", ResponseData = Service.CreateAilment(dto.Hive_Id, dto.Name, (AilmentSeverity)Enum.ToObject(typeof(AilmentSeverity), dto.Severity), dto.Solved, dto.Comment!) };
+        new ResponseDto
+        {
+            MessageToClient = "Successfully created an ailment.", 
+            ResponseData = Service.CreateAilment(
+                dto.Hive_Id, 
+                dto.Name, 
+                (AilmentSeverity)Enum.ToObject(typeof(AilmentSeverity), dto.Severity), 
+                dto.Solved, 
+                dto.Comment!)
+        };
 
     [HttpPut]
     [Authorize]

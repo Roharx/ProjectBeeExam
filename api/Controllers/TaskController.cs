@@ -32,7 +32,11 @@ public class TaskController : ControllerBase<TaskService>
         new ResponseDto
         {
             MessageToClient = "Successfully created a task.", 
-            ResponseData = Service.CreateTask(dto.HiveId, dto.Name, dto.Description!, dto.Done)
+            ResponseData = Service.CreateTask(
+                dto.HiveId, 
+                dto.Name, 
+                dto.Description!, 
+                dto.Done)
         };
 
     [HttpPut]

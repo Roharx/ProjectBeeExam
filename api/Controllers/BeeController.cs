@@ -18,14 +18,25 @@ public class BeeController : ControllerBase<BeeService>
     [HttpGet]
     [Authorize]
     [Route("/api/getBees")]
-    public ResponseDto GetAllBees() => new ResponseDto { MessageToClient = "Successfully fetched all bees.", ResponseData = Service.GetAllBees() };
+    public ResponseDto GetAllBees() => new ResponseDto
+    {
+        MessageToClient = "Successfully fetched all bees.", 
+        ResponseData = Service.GetAllBees()
+    };
 
     [HttpPost]
     [Authorize]
     [ValidateModel]
     [Route("/api/createBee")]
     public ResponseDto CreateBee([FromBody] CreateBeeRequestDto dto) =>
-        new ResponseDto { MessageToClient = "Successfully created a bee.", ResponseData = Service.CreateBee(dto.Name, dto.Description, dto.Comment!) };
+        new ResponseDto
+        {
+            MessageToClient = "Successfully created a bee.", 
+            ResponseData = Service.CreateBee(
+                dto.Name, 
+                dto.Description, 
+                dto.Comment!)
+        };
 
     [HttpPut]
     [Authorize]

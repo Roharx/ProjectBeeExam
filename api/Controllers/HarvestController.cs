@@ -30,7 +30,12 @@ public class HarvestController : ControllerBase<HarvestService>
         new ResponseDto
         {
             MessageToClient = "Successfully created a harvest.", 
-            ResponseData = Service.CreateHarvest(dto.HiveId, dto.Time, dto.HoneyAmount, dto.BeeswaxAmount, dto.Comment)
+            ResponseData = Service.CreateHarvest(
+                dto.HiveId, 
+                dto.Time, 
+                dto.HoneyAmount, 
+                dto.BeeswaxAmount, 
+                dto.Comment)
         };
 
     [HttpPut]
