@@ -6,6 +6,7 @@ namespace service;
 
 public class AilmentService : ServiceBase
 {
+    //TODO: refactoring, class will be removed later
     public AilmentService(IRepository repository) : base(repository)
     { }
 

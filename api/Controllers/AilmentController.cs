@@ -6,27 +6,34 @@ using infrastructure.DataModels.Enums;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using service;
+using service.interfaces;
 
 namespace BeeProject.Controllers;
 
-public class AilmentController : ControllerBase<AilmentService>
+public class AilmentController : ControllerBase<IService>
 {
 
-    public AilmentController(AilmentService ailmentService) : base(ailmentService)
+    public AilmentController(IService ailmentService) : base(ailmentService)
     { }
     
     [HttpGet]
     [Authorize]
     [Route("/api/getAilments")]
-    public ResponseDto GetAllAilments() => new ResponseDto 
-        { MessageToClient = "Successfully fetched all ailments.", ResponseData = Service.GetAllAilments() };
+    public ResponseDto GetAllAilments() => new ResponseDto
+    {
+        MessageToClient = "Successfully fetched all ailments.", 
+        ResponseData = Service.GetAllItems<AilmentQuery>("ailment")
+    };
 
     [HttpGet]
     [Authorize]
     [Route("/api/getGlobalAilments")]
-    public ResponseDto GetGlobalAilments() => new ResponseDto 
-        { MessageToClient = "Successfully fetched all ailments.", ResponseData = Service.GetGlobalAilments() };
+    public ResponseDto GetGlobalAilments() => new ResponseDto
+    {
+        MessageToClient = "Successfully fetched all ailments.", 
+        ResponseData = Service.GetItemsByParameters<AilmentQuery>("ailment", 
+            new {severity = (int)AilmentSeverity.SevereInternal})
+    };
 
     [HttpPost]
     [Authorize]
@@ -36,12 +43,17 @@ public class AilmentController : ControllerBase<AilmentService>
         new ResponseDto
         {
             MessageToClient = "Successfully created an ailment.", 
-            ResponseData = Service.CreateAilment(
-                dto.Hive_Id, 
-                dto.Name, 
-                (AilmentSeverity)Enum.ToObject(typeof(AilmentSeverity), dto.Severity), 
-                dto.Solved, 
-                dto.Comment!)
+            ResponseData = Service.CreateItem<AilmentQuery>(
+                "ailment",
+                new
+                {
+                    hive_id = dto.Hive_Id, 
+                    name = dto.Name, 
+                    severity = (AilmentSeverity)Enum.ToObject(typeof(AilmentSeverity), dto.Severity), 
+                    solved = dto.Solved, 
+                    comment = dto.Comment!
+                }
+                )
         };
 
     [HttpPut]
@@ -59,7 +71,7 @@ public class AilmentController : ControllerBase<AilmentService>
             Comment = dto.Comment,
             Solved = dto.Solved
         };
-        Service.UpdateAilment(ailment);
+        Service.UpdateItem("ailment", ailment);
         return new ResponseDto { MessageToClient = "Successfully updated ailment." };
     }
 
@@ -68,7 +80,7 @@ public class AilmentController : ControllerBase<AilmentService>
     [Route("/api/DeleteAilment/{id:int}")]
     public ResponseDto DeleteAilment([FromRoute] int id)
     {
-        Service.DeleteAilment(id);
+        Service.DeleteItem("ailment", id);
         return new ResponseDto { MessageToClient = "Successfully deleted ailment." };
     }
 }

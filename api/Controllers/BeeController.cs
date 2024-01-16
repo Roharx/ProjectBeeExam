@@ -7,12 +7,13 @@ using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using service;
+using service.interfaces;
 
 namespace BeeProject.Controllers;
 
-public class BeeController : ControllerBase<BeeService>
+public class BeeController : ControllerBase<IService>
 {
-    public BeeController(BeeService beeService) : base(beeService)
+    public BeeController(IService beeService) : base(beeService)
     { }
     
     [HttpGet]
@@ -21,7 +22,7 @@ public class BeeController : ControllerBase<BeeService>
     public ResponseDto GetAllBees() => new ResponseDto
     {
         MessageToClient = "Successfully fetched all bees.", 
-        ResponseData = Service.GetAllBees()
+        ResponseData = Service.GetAllItems<BeeQuery>("bee")
     };
 
     [HttpPost]
@@ -32,10 +33,12 @@ public class BeeController : ControllerBase<BeeService>
         new ResponseDto
         {
             MessageToClient = "Successfully created a bee.", 
-            ResponseData = Service.CreateBee(
-                dto.Name, 
-                dto.Description, 
-                dto.Comment!)
+            ResponseData = Service.CreateItem<BeeQuery>("bee", new
+            {
+                name =  dto.Name, 
+                descripton = dto.Description, 
+                comment = dto.Comment!
+            })
         };
 
     [HttpPut]
@@ -52,7 +55,7 @@ public class BeeController : ControllerBase<BeeService>
                 Description = dto.Description,
                 Comment = dto.Comment
             };
-            Service.UpdateBee(bee);
+            Service.UpdateItem("bee", bee);
             return null;
         }, "updated bee");
 
@@ -60,5 +63,8 @@ public class BeeController : ControllerBase<BeeService>
     [Authorize]
     [Route("/api/DeleteBee/{id:int}")]
     public ResponseDto DeleteBee([FromRoute] int id) =>
-        ValidateAndProceed<ResponseDto>(() => { Service.DeleteBee(id); return null; }, "deleted bee");
+        ValidateAndProceed<ResponseDto>(() =>
+        {
+            Service.DeleteItem("bee", id); return null;
+        }, "deleted bee");
 }

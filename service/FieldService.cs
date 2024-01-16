@@ -5,6 +5,7 @@ namespace service;
 
 public class FieldService : ServiceBase
 {
+    //TODO: refactoring, class will be removed later
     public FieldService(IRepository repository) : base(repository)
     { }
 
@@ -13,7 +14,6 @@ public class FieldService : ServiceBase
         return GetAllItems<FieldQuery>("field");
     }
 
-    //TODO: fix later, no usages needed yet
     public IEnumerable<Account_FieldQuery> GetAllAccountFieldConnections()
     {
         return GetAllItems<Account_FieldQuery>("account_field");
@@ -45,7 +45,7 @@ public class FieldService : ServiceBase
         var fieldIds = GetItemsByParameters<int>("account_field", new { account_id = accountId }).ToArray();
 
         return fieldIds.Length != 0
-            ? fieldIds.Select(id => GetSingleItemByParameters<FieldQuery>("field", new { id })!).ToList()
+            ? fieldIds.Select(id => GetSingleItemByParameters<FieldQuery>("field", new { id })).ToList()
             : Enumerable.Empty<FieldQuery>();
     }
 
