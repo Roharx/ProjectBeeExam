@@ -32,7 +32,7 @@ builder.Services.AddSingleton<ITokenService, TokenService>();
 builder.Services.AddSingleton<IRepository, RepositoryHandler>();
 
 // Services
-builder.Services.AddSingleton<IService, ServiceBase>();
+builder.Services.AddSingleton<IService, ServiceHandler>();
 
 builder.Services.AddSingleton<AccountService>();
 builder.Services.AddSingleton<AilmentService>();

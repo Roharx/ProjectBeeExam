@@ -5,7 +5,7 @@ using infrastructure.QueryModels;
 
 namespace service;
 
-public class AccountService : ServiceBase
+public class AccountService : ServiceHandler
 {
     private readonly ITokenService _tokenService;
 

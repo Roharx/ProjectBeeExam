@@ -3,11 +3,11 @@ using service.interfaces;
 
 namespace service
 {
-    public class ServiceBase : IService
+    public class ServiceHandler : IService
     {
         protected readonly IRepository Repository;
 
-        public ServiceBase(IRepository repository)
+        public ServiceHandler(IRepository repository)
         {
             Repository = repository;
         }
