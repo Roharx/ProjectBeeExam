@@ -1,12 +1,7 @@
-﻿name: Skip YAML Files on Pull and Push Requests
+﻿name: Skip YAML Files on Pull Requests
 
 on:
   pull_request:
-    branches:
-      - main
-    paths-ignore:
-      - '.github/workflows/**'
-  push:
     branches:
       - main
     paths-ignore:
