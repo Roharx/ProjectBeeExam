@@ -5,15 +5,16 @@ using BeeProject.TransferModels.UpdateRequests;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using service;
+using service.interfaces;
 
 namespace BeeProject.Controllers;
 
-public class TaskController : ControllerBase<TaskService>
+public class TaskController : ControllerBase<IService>
 {
-    public TaskController(TaskService taskService) : base(taskService)
+    public TaskController(IService taskService) : base(taskService)
     { }
 
+    //TODO: ValidateAndProceed
     [HttpGet]
     [Authorize]
     [Route("/api/getTask")]
@@ -21,9 +22,10 @@ public class TaskController : ControllerBase<TaskService>
         new ResponseDto
         {
             MessageToClient = "Successfully fetched every task.", 
-            ResponseData = Service.GetAllTasks()
+            ResponseData = Service.GetAllItems<TaskQuery>("task")
         };
 
+    //TODO: ValidateAndProceed
     [HttpPost]
     [Authorize]
     [ValidateModel]
@@ -32,11 +34,15 @@ public class TaskController : ControllerBase<TaskService>
         new ResponseDto
         {
             MessageToClient = "Successfully created a task.", 
-            ResponseData = Service.CreateTask(
-                dto.HiveId, 
-                dto.Name, 
-                dto.Description!, 
-                dto.Done)
+            ResponseData = Service.CreateItem<TaskQuery>(
+                "task",
+                new
+                {
+                    hive_Id = dto.HiveId,
+                    name = dto.Name,
+                    description = dto.Description,
+                    done = dto.Done
+                })
         };
 
     [HttpPut]
@@ -54,7 +60,7 @@ public class TaskController : ControllerBase<TaskService>
                 Description = dto.Description,
                 Done = dto.Done
             };
-            Service.UpdateTask(task);
+            Service.UpdateItem("task", task);
             return null;
         }, "updated task");
 
@@ -64,6 +70,6 @@ public class TaskController : ControllerBase<TaskService>
     public ResponseDto DeleteTask([FromRoute] int id) =>
         ValidateAndProceed<ResponseDto>(() =>
         {
-            Service.DeleteTask(id); return null;
+            Service.DeleteItem("task", id); return null;
         }, "deleted task");
 }

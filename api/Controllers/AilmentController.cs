@@ -16,6 +16,7 @@ public class AilmentController : ControllerBase<IService>
     public AilmentController(IService ailmentService) : base(ailmentService)
     { }
     
+    //TODO: ValidateAndProceed
     [HttpGet]
     [Authorize]
     [Route("/api/getAilments")]
@@ -25,6 +26,7 @@ public class AilmentController : ControllerBase<IService>
         ResponseData = Service.GetAllItems<AilmentQuery>("ailment")
     };
 
+    //TODO: ValidateAndProceed
     [HttpGet]
     [Authorize]
     [Route("/api/getGlobalAilments")]
@@ -35,6 +37,7 @@ public class AilmentController : ControllerBase<IService>
             new {severity = (int)AilmentSeverity.SevereInternal})
     };
 
+    //TODO: ValidateAndProceed
     [HttpPost]
     [Authorize]
     [ValidateModel]
@@ -56,6 +59,7 @@ public class AilmentController : ControllerBase<IService>
                 )
         };
 
+    //TODO: ValidateAndProceed
     [HttpPut]
     [Authorize]
     [ValidateModel]
@@ -75,6 +79,7 @@ public class AilmentController : ControllerBase<IService>
         return new ResponseDto { MessageToClient = "Successfully updated ailment." };
     }
 
+    //TODO: ValidateAndProceed
     [HttpDelete]
     [Authorize]
     [Route("/api/DeleteAilment/{id:int}")]

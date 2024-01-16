@@ -5,6 +5,7 @@ namespace service;
 
 public class HarvestService : ServiceBase
 {
+    //TODO: refactoring, class will be removed later
     public HarvestService(IRepository repository) : base(repository)
     { }
 

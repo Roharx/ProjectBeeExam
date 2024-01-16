@@ -5,6 +5,7 @@ namespace service;
 
 public class TaskService : ServiceBase
 {
+    //TODO: refactoring, class will be removed later
     public TaskService(IRepository repository) : base (repository)
     { }
 

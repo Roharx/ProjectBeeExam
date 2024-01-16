@@ -5,24 +5,26 @@ using BeeProject.TransferModels.UpdateRequests;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using service;
+using service.interfaces;
 
 namespace BeeProject.Controllers;
 
-public class InventoryController : ControllerBase<InventoryService>
+public class InventoryController : ControllerBase<IService>
 {
-    public InventoryController(InventoryService inventoryService) : base(inventoryService)
+    public InventoryController(IService inventoryService) : base(inventoryService)
     { }
 
+    //TODO: ValidateAndProceed
     [HttpGet]
     [Authorize]
     [Route("/api/getInventory")]
     public ResponseDto GetAllInventory() =>
         new ResponseDto { 
             MessageToClient = "Successfully fetched every inventory.", 
-            ResponseData = Service.GetAllInventoryItems() 
+            ResponseData = Service.GetAllItems<InventoryQuery>("inventory") 
         };
 
+    //TODO: ValidateAndProceed
     [HttpPost]
     [Authorize]
     [ValidateModel]
@@ -31,11 +33,15 @@ public class InventoryController : ControllerBase<InventoryService>
         new ResponseDto
         {
             MessageToClient = "Successfully created an inventory.", 
-            ResponseData = Service.CreateInventoryItem(
-                dto.FieldId, 
-                dto.Name, 
-                dto.Description, 
-                dto.Amount)
+            ResponseData = Service.CreateItem<InventoryQuery>(
+                "inventory",
+                new
+                {
+                    field_Id = dto.FieldId,
+                    name = dto.Name,
+                    description = dto.Description,
+                    amount = dto.Amount
+                })
         };
 
     [HttpPut]
@@ -53,7 +59,7 @@ public class InventoryController : ControllerBase<InventoryService>
                 Description = dto.Description,
                 Amount = dto.Amount
             };
-            Service.UpdateInventoryItem(inventory);
+            Service.UpdateItem("inventory", inventory);
             return null;
         }, "updated inventory");
 
@@ -63,6 +69,6 @@ public class InventoryController : ControllerBase<InventoryService>
     public ResponseDto DeleteInventory([FromRoute] int id) =>
         ValidateAndProceed<ResponseDto>(() =>
         {
-            Service.DeleteInventoryItem(id); return null;
+            Service.DeleteItem("inventory", id); return null;
         }, "deleted inventory");
 }

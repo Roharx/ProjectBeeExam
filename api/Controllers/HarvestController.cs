@@ -5,23 +5,24 @@ using BeeProject.TransferModels.UpdateRequests;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using service;
+using service.interfaces;
 
 namespace BeeProject.Controllers;
 
-public class HarvestController : ControllerBase<HarvestService>
+public class HarvestController : ControllerBase<IService>
 {
-    public HarvestController(HarvestService harvestService) : base(harvestService)
+    public HarvestController(IService harvestService) : base(harvestService)
     { }
-    
+    //TODO: ValidateAndProceed
     [HttpGet]
     [Authorize]
     [Route("/api/getHarvests")]
     public ResponseDto GetAllHarvests() => new ResponseDto
     {
-        MessageToClient = "Successfully fetched all harvests.", ResponseData = Service.GetAllHarvests()
+        MessageToClient = "Successfully fetched all harvests.", 
+        ResponseData = Service.GetAllItems<HarvestQuery>("harvest")
     };
-
+    //TODO: ValidateAndProceed
     [HttpPost]
     [Authorize]
     [ValidateModel]
@@ -30,12 +31,16 @@ public class HarvestController : ControllerBase<HarvestService>
         new ResponseDto
         {
             MessageToClient = "Successfully created a harvest.", 
-            ResponseData = Service.CreateHarvest(
-                dto.HiveId, 
-                dto.Time, 
-                dto.HoneyAmount, 
-                dto.BeeswaxAmount, 
-                dto.Comment)
+            ResponseData = Service.CreateItem<HarvestQuery>("harvest",
+                new
+                {
+                    hive_id = dto.HiveId, 
+                    time = dto.Time, 
+                    honey_amount = dto.HoneyAmount, 
+                    beeswax_amount = dto.BeeswaxAmount, 
+                    comment = dto.Comment
+                }
+                )
         };
 
     [HttpPut]
@@ -54,7 +59,7 @@ public class HarvestController : ControllerBase<HarvestService>
                 Beeswax_Amount = dto.BeeswaxAmount, 
                 Comment = dto.Comment
             };
-            Service.UpdateHarvest(harvest);
+            Service.UpdateItem("harvest", harvest);
             return null;
         }, "updated harvest");
 
@@ -64,6 +69,6 @@ public class HarvestController : ControllerBase<HarvestService>
     public ResponseDto DeleteHarvest([FromRoute] int id) =>
         ValidateAndProceed<ResponseDto>(() =>
         {
-            Service.DeleteHarvest(id); return null;
+            Service.DeleteItem("harvest", id); return null;
         }, "deleted harvest");
 }

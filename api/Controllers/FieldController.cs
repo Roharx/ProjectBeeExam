@@ -16,6 +16,7 @@ public class FieldController : ControllerBase<IService>
     {
     }
 
+    //TODO: ValidateAndProceed
     [HttpGet]
     [Authorize]
     [Route("/api/getFields")]
@@ -25,6 +26,7 @@ public class FieldController : ControllerBase<IService>
         ResponseData = Service.GetAllItems<FieldQuery>("field")
     };
 
+    //TODO: ValidateAndProceed
     [HttpGet]
     [Authorize]
     [Route("/api/getAccAccountFieldConnections")]
@@ -34,6 +36,7 @@ public class FieldController : ControllerBase<IService>
         ResponseData = Service.GetAllItems<Account_FieldQuery>("account_field")
     };
 
+    //TODO: ValidateAndProceed
     //TODO: should be in accountController, change when have time or in later update, not that important for now
     [HttpGet]
     [Authorize]
@@ -44,6 +47,7 @@ public class FieldController : ControllerBase<IService>
         ResponseData = Service.GetDataForId<FieldQuery>("account_field", new {account_id = id}, "field")
     };
 
+    //TODO: ValidateAndProceed
     [HttpPost]
     [Authorize]
     [ValidateModel]
@@ -58,7 +62,7 @@ public class FieldController : ControllerBase<IService>
                 location = dto.FieldLocation
             })
         };
-
+    
     [HttpPut]
     [Authorize]
     [ValidateModel]
@@ -86,6 +90,7 @@ public class FieldController : ControllerBase<IService>
             return null;
         }, "deleted field");
 
+    //TODO: ValidateAndProceed
     [HttpPost]
     [Authorize]
     [ValidateModel]
@@ -101,6 +106,7 @@ public class FieldController : ControllerBase<IService>
             })
         };
 
+    //TODO: ValidateAndProceed
     [HttpPut]
     [Authorize]
     [ValidateModel]

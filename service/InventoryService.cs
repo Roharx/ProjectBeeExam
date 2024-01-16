@@ -5,6 +5,7 @@ namespace service;
 
 public class InventoryService : ServiceBase
 {
+    //TODO: refactoring, class will be removed later
     public InventoryService(IRepository repository) : base (repository)
     { }
 

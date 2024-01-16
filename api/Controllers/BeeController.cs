@@ -16,6 +16,7 @@ public class BeeController : ControllerBase<IService>
     public BeeController(IService beeService) : base(beeService)
     { }
     
+    //TODO: ValidateAndProceed
     [HttpGet]
     [Authorize]
     [Route("/api/getBees")]
@@ -25,6 +26,7 @@ public class BeeController : ControllerBase<IService>
         ResponseData = Service.GetAllItems<BeeQuery>("bee")
     };
 
+    //TODO: ValidateAndProceed
     [HttpPost]
     [Authorize]
     [ValidateModel]

@@ -5,22 +5,27 @@ using BeeProject.TransferModels.UpdateRequests;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using service;
+using service.interfaces;
 
 namespace BeeProject.Controllers;
 
-public class HoneyController : ControllerBase<HoneyService>
+public class HoneyController : ControllerBase<IService>
 {
-    public HoneyController(HoneyService honeyService) : base(honeyService)
+    public HoneyController(IService honeyService) : base(honeyService)
     { }
 
+    //TODO: ValidateAndProceed
     [HttpGet]
     [Authorize]
     [Route("/api/getHoney")]
     public ResponseDto GetAllHoneys() =>
         new ResponseDto
-            { MessageToClient = "Successfully fetched every honey.", ResponseData = Service.GetAllHoney() };
+            { 
+                MessageToClient = "Successfully fetched every honey.", 
+                ResponseData = Service.GetAllItems<HoneyQuery>("honey") 
+            };
 
+    //TODO: ValidateAndProceed
     [HttpPost]
     [Authorize]
     [ValidateModel]
@@ -29,12 +34,16 @@ public class HoneyController : ControllerBase<HoneyService>
         new ResponseDto
         {
             MessageToClient = "Successfully created a honey.",
-            ResponseData = Service.CreateHoney(
-                dto.Harvest, 
-                dto.Name, 
-                dto.Liquid, 
-                dto.Flowers, 
-                dto.Moisture)
+            ResponseData = Service.CreateItem<HoneyQuery>(
+                "honey",
+                new
+                {
+                    name = dto.Name,
+                    liquid = dto.Liquid,
+                    harvest_id = dto.Harvest,
+                    moisture = dto.Moisture,
+                    flowers = dto.Flowers
+                })
         };
 
     [HttpPut]
@@ -53,7 +62,7 @@ public class HoneyController : ControllerBase<HoneyService>
                 Moisture = dto.Moisture,
                 Flowers = dto.Flowers,
             };
-            Service.UpdateHoney(honey);
+            Service.UpdateItem("honey", honey);
             return null;
         }, "updated honey");
 
@@ -63,7 +72,7 @@ public class HoneyController : ControllerBase<HoneyService>
     public ResponseDto DeleteHoney([FromRoute] int id) =>
         ValidateAndProceed<ResponseDto>(() =>
         {
-            Service.DeleteHoney(id);
+            Service.DeleteItem("honey", id);
             return null;
         }, "deleted honey");
 }

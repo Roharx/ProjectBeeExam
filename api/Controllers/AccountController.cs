@@ -45,6 +45,7 @@ namespace BeeProject.Controllers
                 ), "created an account");
         }
 
+        //TODO: ValidateAndProceed
         [HttpPut]
         [Authorize]
         [ValidateModel]

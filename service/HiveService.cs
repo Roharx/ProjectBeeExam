@@ -5,6 +5,7 @@ namespace service;
 
 public class HiveService : ServiceBase
 {
+    //TODO: refactoring, class will be removed later
     public HiveService(IRepository repository) : base(repository)
     { }
 

@@ -5,32 +5,37 @@ using BeeProject.TransferModels.UpdateRequests;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using service;
+using service.interfaces;
 
 namespace BeeProject.Controllers;
 
-public class HiveController : ControllerBase<HiveService>
+public class HiveController : ControllerBase<IService>
 {
-    public HiveController(HiveService hiveService): base(hiveService)
+    public HiveController(IService hiveService): base(hiveService)
     { }
 
+    //TODO: ValidateAndProceed
     [HttpGet]
     [Authorize]
     [Route("/api/getHives")]
     public ResponseDto GetAllHives() => new ResponseDto
     {
-        MessageToClient = "Successfully fetched all hives.", ResponseData = Service.GetAllHives()
+        MessageToClient = "Successfully fetched all hives.", 
+        ResponseData = Service.GetAllItems<HiveQuery>("hive")
     };
 
+    //TODO: ValidateAndProceed
     [HttpGet]
     [Authorize]
     [Route("/api/getHivesForField/{id:int}")]
     public ResponseDto GetAllHivesForField([FromRoute] int id) =>
         new ResponseDto
         {
-            MessageToClient = "Successfully fetched all hives.", ResponseData = Service.GetHivesForField(id)
+            MessageToClient = "Successfully fetched all hives.", 
+            ResponseData = Service.GetItemsByParameters<HarvestQuery>("hive", id)
         };
 
+    //TODO: ValidateAndProceed
     [HttpPost]
     [Authorize]
     [ValidateModel]
@@ -38,16 +43,20 @@ public class HiveController : ControllerBase<HiveService>
     public ResponseDto CreateHive([FromBody] CreateHiveRequestDto dto) =>
         new ResponseDto { 
             MessageToClient = "Successfully created a hive.", 
-            ResponseData = Service.CreateHive(
-                dto.FieldId, 
-                dto.Name, 
-                dto.Location, 
-                dto.PlacementDate, 
-                dto.LastCheck, 
-                dto.ReadyToHarvest, 
-                dto.Color, 
-                dto.Comment!, 
-                dto.BeeId) 
+            ResponseData = Service.CreateItem<HiveQuery>(
+                "hive",
+                new
+                {
+                    field_id = dto.FieldId, 
+                    name = dto.Name, 
+                    location = dto.Location, 
+                    placement = dto.PlacementDate, 
+                    last_check = dto.LastCheck, 
+                    ready = dto.ReadyToHarvest, 
+                    color = dto.Color, 
+                    comment = dto.Comment!, 
+                    bee_type = dto.BeeId
+                }) 
         };
 
     [HttpPut]
@@ -70,7 +79,7 @@ public class HiveController : ControllerBase<HiveService>
                 Bee_Type = dto.Bee_Type,
                 Comment = dto.Comment
             };
-            Service.UpdateHive(hive);
+            Service.UpdateItem("hive", hive);
             return null;
         }, "updated hive");
 
@@ -80,6 +89,6 @@ public class HiveController : ControllerBase<HiveService>
     public ResponseDto DeleteHive([FromRoute] int id) =>
         ValidateAndProceed<ResponseDto>(() =>
         {
-            Service.DeleteHive(id); return null;
+            Service.DeleteItem("hive", id); return null;
         }, "deleted hive");
 }
