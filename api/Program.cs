@@ -35,14 +35,6 @@ builder.Services.AddSingleton<IRepository, RepositoryHandler>();
 builder.Services.AddSingleton<IService, ServiceHandler>();
 
 builder.Services.AddSingleton<AccountService>();
-builder.Services.AddSingleton<AilmentService>();
-builder.Services.AddSingleton<BeeService>();
-builder.Services.AddSingleton<FieldService>();
-builder.Services.AddSingleton<HarvestService>();
-builder.Services.AddSingleton<HiveService>();
-builder.Services.AddSingleton<HoneyService>();
-builder.Services.AddSingleton<InventoryService>();
-builder.Services.AddSingleton<TaskService>();
 
 builder.Services.AddControllers();
 

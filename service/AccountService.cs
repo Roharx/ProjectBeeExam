@@ -7,6 +7,7 @@ namespace service;
 
 public class AccountService : ServiceHandler
 {
+    //TODO: refactor after exam
     private readonly ITokenService _tokenService;
 
     public AccountService(IRepository repository, ITokenService tokenService) : base(repository)
