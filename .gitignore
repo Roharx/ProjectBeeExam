@@ -1,4 +1,5 @@
 ﻿bin
 obj
 *.sln.DotSettings.user
+secrets.json
 .github/workflows/ignore-on-pull.yaml

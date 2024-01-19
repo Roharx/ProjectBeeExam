@@ -17,7 +17,7 @@ public class TokenService: ITokenService
     private IConfiguration Configuration { get; }
     public TokenService(IConfiguration configuration)
     {
-        this.Configuration = configuration;
+        Configuration = configuration;
     }
     
     
