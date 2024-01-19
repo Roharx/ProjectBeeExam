@@ -1,3 +1,3 @@
 # Auto detect text files and perform LF normalization
 * text=auto
-api/appsettings.json export-ignore
+appsettings.json export-ignore
