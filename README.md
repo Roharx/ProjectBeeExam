@@ -48,11 +48,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://github.com/Roharx/BeesProject)
-
 This is my personal project for a bee farm that I am planning to create around the age of 40-45. I apply different 
 coding techniques and cool solutions that I learn from university and work, this is completely independent from
-any companies (for now).
+any companies and is an experimental project, acting as a playground.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
