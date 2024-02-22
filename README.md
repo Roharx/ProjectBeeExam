@@ -6,7 +6,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/Roharx/BeesProject">
+  <a href="https://github.com/Roharx/ProjectBeeExam">
     <img src="images/Bee.png" alt="Logo" width="40" height="40" >
   </a>
 
