@@ -136,7 +136,7 @@ The readme file is distributed under the MIT License. See `LICENSE.txt` for more
 
 Bálint Farkas - [Bálint Farkas](https://www.facebook.com/ffbalint/) - balint.imal@gmail.com
 
-Project Link - [Bees Project](https://github.com/Roharx/BeesProject)
+Project Link - [Bees Project](https://github.com/Roharx/ProjectBeeExam)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
