@@ -1,7 +1,7 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-#readme-top
+<a>#readme-top</a>
 
 <!-- PROJECT LOGO -->
 <br />
