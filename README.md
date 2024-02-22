@@ -13,9 +13,11 @@
 <h3 align="center">Bees Project</h3>
 
   <p align="center">
-    My personal project for my future bees 🐝
-    This project is currently on hold so I can focus on my studies first.
+    My personal project for my future bees 🐝    
   </p>
+  <p align="center">
+    This project is currently on hold so I can focus on my studies first.
+  </p>  
 </div>
 
 
